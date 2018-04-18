@@ -96,18 +96,27 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:background="@color/colorAccent">
 
         <EditText
             android:id="@+id/add_task"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="Add todo" />
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:singleLine="true"
+            android:background="@null"
+            android:hint="Add todo"
+            android:textSize="16sp"/>
 
         <ImageButton
             android:id="@+id/filter"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_action_filter"
+            android:background="@color/colorTransparent"
+            android:layout_gravity="center"
+            android:padding="8dp" />
 
     </LinearLayout>
 
