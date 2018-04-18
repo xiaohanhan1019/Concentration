@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@color/colorAccent"/>
+
+        <com.example.xiaohanhan.concentration.CircleProgressView
+            android:id="@+id/circle_progress_view"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            app:circleColor="@color/color_progressBar_circleColor"
+            app:radius="80dp"
+            app:ringBgColor="@color/color_progressBar_ringBgColor"
+            app:ringColor = "@color/color_progressBar_ringColor"
+            app:ringStrokeWidth="8dp"
+            app:textColor="@color/color_progressBar_textColor"
+            android:background="@color/colorPrimary"/>
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

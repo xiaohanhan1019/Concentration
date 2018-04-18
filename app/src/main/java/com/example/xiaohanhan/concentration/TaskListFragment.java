@@ -1,13 +1,16 @@
 package com.example.xiaohanhan.concentration;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.xiaohanhan.concentration.Model.Task;
@@ -44,6 +47,8 @@ public class TaskListFragment extends Fragment{
         private TextView mTaskStatus;
         private TextView mTaskDeadline;
 
+        private ImageButton mTaskConcentration;
+
         private Task mTask;
 
         public TaskHolder(LayoutInflater inflater, ViewGroup parent){
@@ -57,6 +62,15 @@ public class TaskListFragment extends Fragment{
             mTaskName = itemView.findViewById(R.id.task_name);
             mTaskStatus = itemView.findViewById(R.id.task_status);
             mTaskDeadline = itemView.findViewById(R.id.task_dead_line);
+            mTaskConcentration = itemView.findViewById(R.id.task_concentration);
+            mTaskConcentration.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent();
+                    intent.setClass(getActivity(),ConcentrationActivity.class);
+                    startActivity(intent);
+                }
+            });
         }
 
         public void bind(Task task){
@@ -79,12 +93,20 @@ public class TaskListFragment extends Fragment{
             }
             mTaskName.setText(mTask.getTaskName());
             mTaskStatus.setText(String.format(Locale.getDefault(),"%d/%d",mTask.getWorkedTime(),mTask.getExpectedWorkingTime()));
-            mTaskDeadline.setText(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(mTask.getExpectedDate()));
+            if(mTask.getDeadline()!=null) {
+                mTaskDeadline.setText(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(mTask.getDeadline()));
+                mTaskDeadline.setVisibility(View.VISIBLE);
+            } else {
+                mTaskDeadline.setText("");
+                mTaskDeadline.setVisibility(View.GONE);
+            }
         }
 
         @Override
         public void onClick(View v) {
-
+            //先跳转到activity 通过activity跳转到fragment 可能有更好的办法
+            Intent intent = TaskActivity.newIntent(getActivity(), mTask.getId());
+            startActivity(intent);
         }
     }
 

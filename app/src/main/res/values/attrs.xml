@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--circle progress bar-->
+    <declare-styleable name="CircleProgressViewAttrs">
+        <attr name="radius" format="dimension"/>
+        <attr name="ringStrokeWidth" format="dimension"/>
+        <attr name="circleColor" format="color"/>
+        <attr name="ringColor" format="color"/>
+        <attr name="ringBgColor" format="color"/>
+        <attr name="textColor" format="color"/>
+    </declare-styleable>
+
+</resources>

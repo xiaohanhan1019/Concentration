@@ -16,7 +16,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".TaskActivity"></activity>
+        <activity
+            android:name=".TaskActivity"
+            android:parentActivityName=".TaskListActivity">
+        </activity>
+        <activity
+            android:name=".ConcentrationActivity"
+            android:parentActivityName=".TaskListActivity">
+        </activity>
     </application>
 
 </manifest>

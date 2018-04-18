@@ -3,6 +3,14 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="color_progressBar_ringBgColor">#BBBBBB</color>
+    <color name="color_progressBar_ringColor">#3B95C8</color>
+    <color name="color_progressBar_circleColor">#3F51B5</color>
+    <color name="color_progressBar_textColor">#000000</color>
     <color name="colorTransparent">#00000000</color>
     <color name="colorWhite">#FFFFFF</color>
+    <color name="colorGrey">#EEEEEE</color>
+    <color name="colorDarkGrey">#CCCCCC</color>
+    <color name="colorBlack">#000000</color>
+    <color name="colorDefault">#FF888888</color>
 </resources>

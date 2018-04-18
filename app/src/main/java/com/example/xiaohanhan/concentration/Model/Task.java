@@ -13,8 +13,9 @@ public class Task {
     private int mUserId;
     private String mTaskName;
     private Timestamp mStartDate;
-    private Timestamp mExpectedDate;
+    private Timestamp mDeadline;
     private Timestamp mFinishDate;
+    private Timestamp mReminder;
     private int mPriority;
     private int mExpectedWorkingTime;
     private int mWorkedTime;
@@ -25,7 +26,7 @@ public class Task {
     public Task(){
         mId = (int)(Math.random() * 10000);
         mStartDate = new Timestamp(new Date().getTime());
-        mExpectedDate = new Timestamp(new Date().getTime());
+        mDeadline = new Timestamp(new Date().getTime());
         mTaskName = Integer.toString(mId);
         mPriority = (int)(Math.random() * 4);
         mExpectedWorkingTime = (int)(Math.random() * 200);
@@ -72,12 +73,12 @@ public class Task {
         mStartDate = startDate;
     }
 
-    public Timestamp getExpectedDate() {
-        return mExpectedDate;
+    public Timestamp getDeadline() {
+        return mDeadline;
     }
 
-    public void setExpectedDate(Timestamp expectedDate) {
-        mExpectedDate = expectedDate;
+    public void setDeadLine(Timestamp Deadline) {
+        mDeadline = Deadline;
     }
 
     public Timestamp getFinishTime() {
@@ -86,6 +87,14 @@ public class Task {
 
     public void setFinishTime(Timestamp finishTime) {
         mFinishDate = finishTime;
+    }
+
+    public Timestamp getReminder() {
+        return mReminder;
+    }
+
+    public void setReminder(Timestamp reminder) {
+        mReminder = reminder;
     }
 
     public int getPriority() {

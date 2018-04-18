@@ -26,11 +26,11 @@ public class TaskListActivity extends AppCompatActivity {
         setTitle("");
 
         FragmentManager fm = getSupportFragmentManager();
-        Fragment fragment = fm.findFragmentById(R.id.fragment_container);
+        Fragment fragment = fm.findFragmentById(R.id.task_list_fragment_container);
 
         if (fragment == null){
             fragment = new TaskListFragment();
-            fm.beginTransaction().add(R.id.fragment_container,fragment).commit();
+            fm.beginTransaction().add(R.id.task_list_fragment_container,fragment).commit();
         }
 
         mShowChartImageView = findViewById(R.id.show_chart);
