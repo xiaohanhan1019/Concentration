@@ -17,7 +17,7 @@ public class ConcentrationFragment extends Fragment{
     //进度条
     private CircleProgressView mCircleProgressView;
     //设定时间 秒
-    private int mTime = 100;
+    private int mTime = 50;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

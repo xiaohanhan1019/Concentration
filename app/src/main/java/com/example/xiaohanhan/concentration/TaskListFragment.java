@@ -1,5 +1,6 @@
 package com.example.xiaohanhan.concentration;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -7,10 +8,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.xiaohanhan.concentration.Model.Task;
@@ -29,6 +34,14 @@ public class TaskListFragment extends Fragment{
     private RecyclerView mTaskRecyclerView;
     private TaskAdapter mTaskAdapter;
 
+    private TextView mTaskGroupName;
+    private EditText mAddTask;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -36,6 +49,9 @@ public class TaskListFragment extends Fragment{
 
         mTaskRecyclerView = v.findViewById(R.id.task_recycler_view);
         mTaskRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        mTaskGroupName = v.findViewById(R.id.task_group_name);
+        mAddTask = v.findViewById(R.id.add_task);
 
         return v;
     }

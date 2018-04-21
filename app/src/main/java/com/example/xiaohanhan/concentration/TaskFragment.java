@@ -14,9 +14,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.xiaohanhan.concentration.Model.DatePickerFragment;
 import com.example.xiaohanhan.concentration.Model.Task;
 import com.example.xiaohanhan.concentration.Model.TaskLab;
 
@@ -28,6 +26,7 @@ import java.util.Locale;
 /**
  * Created by xiaohanhan on 2018/4/18.
  */
+//TODO
 
 public class TaskFragment extends Fragment {
 
@@ -44,7 +43,10 @@ public class TaskFragment extends Fragment {
     private TextView mTaskDeadline;
 
     private RelativeLayout mTaskDeadlineLayout;
-
+    private RelativeLayout mTaskReminderLayout;
+    private RelativeLayout mTaskPriorityLayout;
+    private RelativeLayout mTaskExpectedLayout;
+    private RelativeLayout mTaskNoteLayout;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,6 +86,38 @@ public class TaskFragment extends Fragment {
                 DatePickerFragment expectedDateDialog = DatePickerFragment.newInstance(mTask.getDeadline());
                 expectedDateDialog.setTargetFragment(TaskFragment.this,REQUEST_DEADLINE);
                 expectedDateDialog.show(fm,DIALOG_DEADLINE);
+            }
+        });
+
+        mTaskReminderLayout = v.findViewById(R.id.detail_task_reminder_layout);
+        mTaskReminderLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //two dialog with viewpager
+            }
+        });
+
+        mTaskPriorityLayout = v.findViewById(R.id.detail_task_priority_layout);
+        mTaskPriorityLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //spinner
+            }
+        });
+
+        mTaskExpectedLayout = v.findViewById(R.id.detail_task_expected_layout);
+        mTaskExpectedLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //dialog
+            }
+        });
+
+        mTaskNoteLayout = v.findViewById(R.id.detail_task_note_layout);
+        mTaskNoteLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //above keyboard
             }
         });
 

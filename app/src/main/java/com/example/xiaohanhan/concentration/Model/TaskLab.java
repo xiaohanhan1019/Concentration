@@ -25,7 +25,7 @@ public class TaskLab {
 
     private TaskLab (Context context){
         mTasks = new ArrayList<>();
-        for(int i=0;i<10;i++){
+        for(int i=0;i<15;i++){
             Task t = new Task();
             mTasks.add(t);
         }

@@ -1,4 +1,4 @@
-package com.example.xiaohanhan.concentration.Model;
+package com.example.xiaohanhan.concentration;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -11,8 +11,6 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.DatePicker;
-
-import com.example.xiaohanhan.concentration.R;
 
 import java.util.Calendar;
 import java.util.Date;
