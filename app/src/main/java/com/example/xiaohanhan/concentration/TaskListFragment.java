@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.xiaohanhan.concentration.Model.Task;
+import com.example.xiaohanhan.concentration.Model.TaskGroup;
 import com.example.xiaohanhan.concentration.Model.TaskLab;
 
 import java.text.SimpleDateFormat;
@@ -31,15 +32,30 @@ import java.util.Locale;
 
 public class TaskListFragment extends Fragment{
 
+    private static final String ARG_TASK_GROUP_ID = "task_group_id";
+
+    private TaskGroup mTaskGroup;
+
     private RecyclerView mTaskRecyclerView;
     private TaskAdapter mTaskAdapter;
 
     private TextView mTaskGroupName;
     private EditText mAddTask;
 
+    public static TaskListFragment newInstance(int taskGroupId){
+        Bundle args = new Bundle();
+        args.putSerializable(ARG_TASK_GROUP_ID, taskGroupId);
+        TaskListFragment fragment = new TaskListFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        int taskGroupId = (int)getArguments().getSerializable(ARG_TASK_GROUP_ID);
+        mTaskGroup = TaskLab.get(getActivity()).getTaskGroups(taskGroupId);
     }
 
     @Nullable
@@ -51,6 +67,7 @@ public class TaskListFragment extends Fragment{
         mTaskRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         mTaskGroupName = v.findViewById(R.id.task_group_name);
+        mTaskGroupName.setText(mTaskGroup.getName());
         mAddTask = v.findViewById(R.id.add_task);
 
         return v;
@@ -121,7 +138,7 @@ public class TaskListFragment extends Fragment{
         @Override
         public void onClick(View v) {
             //先跳转到activity 通过activity跳转到fragment 可能有更好的办法
-            Intent intent = TaskActivity.newIntent(getActivity(), mTask.getId());
+            Intent intent = TaskActivity.newIntent(getActivity(), mTaskGroup.getId(),mTask.getId());
             startActivity(intent);
         }
     }
@@ -154,11 +171,8 @@ public class TaskListFragment extends Fragment{
     }
 
     private void updateUI(){
-        TaskLab taskLab = TaskLab.get(getActivity());
-        List<Task> tasks = taskLab.getTasks();
-
         if(mTaskAdapter==null) {
-            mTaskAdapter = new TaskAdapter(tasks);
+            mTaskAdapter = new TaskAdapter(mTaskGroup.getTasks());
             mTaskRecyclerView.setAdapter(mTaskAdapter);
         } else {
             mTaskAdapter.notifyDataSetChanged();

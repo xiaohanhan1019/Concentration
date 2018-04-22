@@ -10,6 +10,7 @@ import android.os.Bundle;
 public class TaskActivity extends AppCompatActivity {
 
     private static final String EXTRA_TASK_ID = "TaskActivity_task_id";
+    private static final String EXTRA_TASK_GROUP_ID = "TaskActivity_task_group_id";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,19 +18,21 @@ public class TaskActivity extends AppCompatActivity {
         setContentView(R.layout.activity_task);
 
         int taskId = getIntent().getIntExtra(EXTRA_TASK_ID,0);
+        int taskGroupId = getIntent().getIntExtra(EXTRA_TASK_GROUP_ID,0);
 
         FragmentManager fm = getSupportFragmentManager();
         Fragment fragment = fm.findFragmentById(R.id.task_fragment_container);
 
         if (fragment == null){
-            fragment = TaskFragment.newInstance(taskId);
+            fragment = TaskFragment.newInstance(taskGroupId,taskId);
             fm.beginTransaction().add(R.id.task_fragment_container,fragment).commit();
         }
     }
 
-    public static Intent newIntent(Context packageContext, int taskId){
+    public static Intent newIntent(Context packageContext,int taskGroupId, int taskId){
         Intent intent = new Intent(packageContext,TaskActivity.class);
         intent.putExtra(EXTRA_TASK_ID,taskId);
+        intent.putExtra(EXTRA_TASK_GROUP_ID,taskGroupId);
         return intent;
     }
 

@@ -14,7 +14,7 @@ public class TaskLab {
 
     private static TaskLab sTaskLab;
 
-    private List<Task> mTasks;
+    private List<TaskGroup> mTaskGroups;
 
     public static TaskLab get(Context context){
         if(sTaskLab == null){
@@ -24,40 +24,23 @@ public class TaskLab {
     }
 
     private TaskLab (Context context){
-        mTasks = new ArrayList<>();
-        for(int i=0;i<15;i++){
-            Task t = new Task();
-            mTasks.add(t);
+        mTaskGroups = new ArrayList<>();
+        for(int i=0;i<3;i++){
+            TaskGroup taskGroup = new TaskGroup();
+            mTaskGroups.add(taskGroup);
         }
     }
 
-    public void addTask(Task task){
-        mTasks.add(task);
+    public List<TaskGroup> getTaskGroups(){
+        return mTaskGroups;
     }
 
-    public List<Task> getTasks(){
-        return mTasks;
-    }
-
-    public Task getTask(int id){
-        for(Task task:mTasks){
-            if(task.getId()==id){
-                return task;
+    public TaskGroup getTaskGroups(int id){
+        for(TaskGroup taskGroup:mTaskGroups){
+            if(taskGroup.getId()==id){
+                return taskGroup;
             }
         }
         return null;
-    }
-
-    public void updateTask(Task task){
-        for(Task t:mTasks){
-            if(t.getId()==task.getId()){
-                t=task;
-            }
-        }
-    }
-
-    private static ContentValues getContentValues(Task task){
-        ContentValues values = new ContentValues();
-        return values;
     }
 }

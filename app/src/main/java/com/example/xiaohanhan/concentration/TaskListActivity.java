@@ -1,24 +1,42 @@
 package com.example.xiaohanhan.concentration;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
+
+import com.example.xiaohanhan.concentration.Model.TaskGroup;
+import com.example.xiaohanhan.concentration.Model.TaskLab;
+
+import java.util.List;
 
 public class TaskListActivity extends AppCompatActivity {
+
+    private final String SAVED_CURRENT_PAGE = "current_page";
 
     MyApplication mApplication;
 
     ImageView mShowChartImageView;
     ImageView mSettingsImageView;
 
+    private ViewPager mViewPager;
+    private List<TaskGroup> mTaskGroups;
+    private int mCurrentPage;
+
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_list);
 
@@ -29,13 +47,22 @@ public class TaskListActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         setTitle("");
 
+        mViewPager = findViewById(R.id.task_list_view_pager);
+        mTaskGroups = TaskLab.get(this).getTaskGroups();
         FragmentManager fm = getSupportFragmentManager();
-        Fragment fragment = fm.findFragmentById(R.id.task_list_fragment_container);
+        mViewPager.setAdapter(new FragmentStatePagerAdapter(fm) {
+            @Override
+            public Fragment getItem(int position) {
+                TaskGroup taskGroup = mTaskGroups.get(position);
+                return TaskListFragment.newInstance(taskGroup.getId());
+            }
 
-        if (fragment == null){
-            fragment = new TaskListFragment();
-            fm.beginTransaction().add(R.id.task_list_fragment_container,fragment).commit();
-        }
+            @Override
+            public int getCount() {
+                return mTaskGroups.size();
+            }
+        });
+        mViewPager.setCurrentItem(mCurrentPage);
 
         mShowChartImageView = findViewById(R.id.show_chart);
         mShowChartImageView.setOnClickListener(new View.OnClickListener() {
@@ -52,6 +79,18 @@ public class TaskListActivity extends AppCompatActivity {
                 //TODO 切换activity
             }
         });
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(SAVED_CURRENT_PAGE,mViewPager.getCurrentItem());
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        mCurrentPage = savedInstanceState.getInt(SAVED_CURRENT_PAGE);
     }
 
     @Override
