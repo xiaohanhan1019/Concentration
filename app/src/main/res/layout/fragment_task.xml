@@ -236,7 +236,8 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:gravity="center"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        android:popupBackground="@drawable/edit_text_background"/>
 
                 </LinearLayout>
 

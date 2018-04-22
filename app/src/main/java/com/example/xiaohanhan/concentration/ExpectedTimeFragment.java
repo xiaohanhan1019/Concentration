@@ -59,6 +59,12 @@ public class ExpectedTimeFragment extends DialogFragment {
                     }
                 })
                 .setNegativeButton("Cancel",null)
+                .setNeutralButton("clear", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        sendResult(Activity.RESULT_OK,0);
+                    }
+                })
                 .create();
     }
 
