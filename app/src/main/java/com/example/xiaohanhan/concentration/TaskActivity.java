@@ -6,6 +6,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MotionEvent;
+import android.view.View;
 
 public class TaskActivity extends AppCompatActivity {
 
@@ -35,5 +37,4 @@ public class TaskActivity extends AppCompatActivity {
         intent.putExtra(EXTRA_TASK_GROUP_ID,taskGroupId);
         return intent;
     }
-
 }

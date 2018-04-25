@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,11 +41,13 @@ public class TaskListFragment extends Fragment{
     private TaskAdapter mTaskAdapter;
 
     private TextView mTaskGroupName;
-    private EditText mAddTask;
 
     public static TaskListFragment newInstance(int taskGroupId){
+
         Bundle args = new Bundle();
+
         args.putSerializable(ARG_TASK_GROUP_ID, taskGroupId);
+
         TaskListFragment fragment = new TaskListFragment();
         fragment.setArguments(args);
         return fragment;
@@ -68,7 +71,6 @@ public class TaskListFragment extends Fragment{
 
         mTaskGroupName = v.findViewById(R.id.task_group_name);
         mTaskGroupName.setText(mTaskGroup.getName());
-        mAddTask = v.findViewById(R.id.add_task);
 
         return v;
     }
@@ -99,8 +101,7 @@ public class TaskListFragment extends Fragment{
             mTaskConcentration.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent();
-                    intent.setClass(getActivity(),ConcentrationActivity.class);
+                    Intent intent = ConcentrationActivity.newIntent(getActivity(), mTaskGroup.getId(),mTask.getId());
                     startActivity(intent);
                 }
             });
@@ -125,9 +126,15 @@ public class TaskListFragment extends Fragment{
                     break;
             }
             mTaskName.setText(mTask.getTaskName());
-            mTaskStatus.setText(String.format(Locale.getDefault(),"%d/%d",mTask.getWorkedTime(),mTask.getExpectedWorkingTime()));
+            if(mTask.getExpectedWorkingTime()!=0) {
+                mTaskStatus.setText(String.format(Locale.getDefault(), "(%.1f/%d)", mTask.getWorkedTime(), mTask.getExpectedWorkingTime()));
+                mTaskStatus.setVisibility(View.VISIBLE);
+            } else {
+                mTaskStatus.setText("");
+                mTaskStatus.setVisibility(View.GONE);
+            }
             if(mTask.getDeadline()!=null) {
-                mTaskDeadline.setText(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(mTask.getDeadline()));
+                mTaskDeadline.setText(getResources().getString(R.string.deadline,new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(mTask.getDeadline())));
                 mTaskDeadline.setVisibility(View.VISIBLE);
             } else {
                 mTaskDeadline.setText("");

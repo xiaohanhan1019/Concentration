@@ -13,36 +13,50 @@
         android:layout_alignParentTop="true"
         android:background="@color/colorPrimaryDark">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <ImageButton
-                android:id="@+id/show_chart"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="@color/colorTransparent"
-                android:src="@drawable/ic_action_chart" />
-
-            <ImageButton
-                android:id="@+id/settings"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="@color/colorTransparent"
-                android:paddingEnd="8dp"
-                android:paddingStart="8dp"
-                android:src="@drawable/ic_action_settings" />
+            android:layout_height="match_parent">
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_alignParentStart="true"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="end"
                 android:orientation="horizontal"
-                android:paddingEnd="16dp"
-                android:paddingStart="16dp">
+                android:layout_centerVertical="true">
+
+                <ImageButton
+                    android:id="@+id/show_chart"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:paddingEnd="8dp"
+                    android:paddingStart="8dp"
+                    android:src="@drawable/ic_action_chart" />
+
+                <ImageButton
+                    android:id="@+id/settings"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:paddingEnd="8dp"
+                    android:paddingStart="8dp"
+                    android:src="@drawable/ic_action_settings" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_alignParentEnd="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:focusable="true"
+                android:clickable="true">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -77,7 +91,7 @@
 
             </LinearLayout>
 
-        </LinearLayout>
+        </RelativeLayout>
 
     </android.support.v7.widget.Toolbar>
 
@@ -93,7 +107,7 @@
         android:id="@+id/add_task_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorAccent"
+        android:background="@color/colorOrangeRed"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal">
 
@@ -103,16 +117,19 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@null"
-            android:hint="edittext2"
+            android:hint="@string/add_task"
+            android:textColorHint="@color/colorWhite"
             android:singleLine="true"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:padding="8dp"
+            android:imeOptions="actionDone"/>
 
         <ImageButton
             android:id="@+id/filter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:background="@color/colorTransparent"
+            android:background="?android:attr/selectableItemBackground"
             android:padding="8dp"
             android:src="@drawable/ic_action_filter" />
 

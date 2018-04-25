@@ -1,7 +1,9 @@
 package com.example.xiaohanhan.concentration.Model;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by xiaohanhan on 2018/4/18.
@@ -10,6 +12,7 @@ import java.util.Date;
 public class Task {
 
     private int mId;
+    private int mGroupId;
     private int mUserId;
     private String mTaskName;
     private Timestamp mStartDate;
@@ -17,28 +20,28 @@ public class Task {
     private Timestamp mFinishDate;
     private Timestamp mReminder;
     private int mPriority;
-    private int mExpectedWorkingTime;
-    private int mWorkedTime;
+    private int mExpectedWorkingTime;   //in minute
+    private double mWorkedTime;            //in minute
     private int mTimes;
     private String mDetail;
     private boolean mIsFinish;
 
-    public Task(){
+    private List<SubTask> mSubTasks;
+
+    public Task(int groupId){
+        mGroupId = groupId;
         mId = (int)(Math.random() * 10000);
         mStartDate = new Timestamp(new Date().getTime());
-        mDeadline = new Timestamp(new Date().getTime());
+        mReminder = null;
+        mDeadline = null;
         mTaskName = Integer.toString(mId);
-        mPriority = (int)(Math.random() * 4);
-        mExpectedWorkingTime = (int)(Math.random() * 200);
+        mPriority = 0;
+        mExpectedWorkingTime = 0;
         mWorkedTime = 0;
         mTimes = 0;
-        mDetail = "";
+        mDetail = null;
         mIsFinish = false;
-//        mSubTasks = new ArrayList<>();
-//        for(int i=0;i<3;i++){
-//            SubTask subTask = new SubTask(mId);
-//            mSubTasks.add(subTask);
-//        }
+        mSubTasks = new ArrayList<>();
     }
 
     public int getId() {
@@ -113,11 +116,11 @@ public class Task {
         mExpectedWorkingTime = expectedWorkingTime;
     }
 
-    public int getWorkedTime() {
+    public double getWorkedTime() {
         return mWorkedTime;
     }
 
-    public void setWorkedTime(int workedTime) {
+    public void setWorkedTime(double workedTime) {
         mWorkedTime = workedTime;
     }
 
@@ -145,4 +148,15 @@ public class Task {
         mIsFinish = finish;
     }
 
+    public List<SubTask> getSubTasks() {
+        return mSubTasks;
+    }
+
+    public void setSubTasks(List<SubTask> subTasks) {
+        mSubTasks = subTasks;
+    }
+
+    public void addSubtask(SubTask subTask){
+        mSubTasks.add(subTask);
+    }
 }

@@ -43,4 +43,8 @@ public class TaskLab {
         }
         return null;
     }
+
+    public int getTaskGroupIdByPostion(int position){
+        return mTaskGroups.get(position).getId();
+    }
 }

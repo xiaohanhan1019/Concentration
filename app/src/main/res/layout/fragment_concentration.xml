@@ -1,31 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/concentration_background">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_alignParentTop="true">
 
-        <TextView
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/detail_task_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:background="@color/colorAccent"/>
+            android:layout_height="wrap_content"
+            android:background="@color/colorTransparent">
+
+        </android.support.v7.widget.Toolbar>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/concentrate_task_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Andoid Studio"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:textSize="28sp"/>
+
+        </LinearLayout>
 
         <com.example.xiaohanhan.concentration.CircleProgressView
             android:id="@+id/circle_progress_view"
             android:layout_width="match_parent"
-            android:layout_height="180dp"
-            app:circleColor="@color/color_progressBar_circleColor"
-            app:radius="80dp"
+            android:layout_height="250dp"
+            app:circleColor="@color/colorTransparent"
+            app:radius="100dp"
             app:ringBgColor="@color/color_progressBar_ringBgColor"
             app:ringColor = "@color/color_progressBar_ringColor"
             app:ringStrokeWidth="8dp"
             app:textColor="@color/color_progressBar_textColor"
-            android:background="@color/colorPrimary"/>
+            android:background="@color/colorTransparent"/>
 
     </LinearLayout>
 
-</android.support.constraint.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="16dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_margin="32dp">
+
+            <Button
+                android:id="@+id/concentrate_hold_down"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:layout_centerInParent="true"
+                android:text="hold down"
+                android:background="@drawable/concentrate_hold_down_button_background"
+                android:paddingStart="24dp"
+                android:paddingEnd="24dp"
+                android:textSize="12sp"
+                android:textColor="@color/colorWhite" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="You have concentrate 100 minutes today!"
+            android:gravity="center"
+            android:padding="8dp"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

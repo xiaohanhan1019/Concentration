@@ -3,23 +3,39 @@ package com.example.xiaohanhan.concentration;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NavUtils;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.example.xiaohanhan.concentration.Dialog.DatePickerFragment;
+import com.example.xiaohanhan.concentration.Dialog.ExpectedTimeFragment;
+import com.example.xiaohanhan.concentration.Dialog.NoteFragment;
+import com.example.xiaohanhan.concentration.Dialog.ReminderPickerFragment;
+import com.example.xiaohanhan.concentration.Model.SubTask;
 import com.example.xiaohanhan.concentration.Model.Task;
+import com.example.xiaohanhan.concentration.Model.TaskGroup;
 import com.example.xiaohanhan.concentration.Model.TaskLab;
 
 import java.sql.Timestamp;
@@ -42,16 +58,24 @@ public class TaskFragment extends Fragment {
     private static final String DIALOG_DEADLINE = "dialog_deadline";
     private static final String DIALOG_REMINDER = "dialog_reminder";
     private static final String DIALOG_EXPECTED_WORKING_TIME = "dialog_expected_working_time";
+    private static final String DIALOG_NOTE = "dialog_note";
 
     private static final int REQUEST_DEADLINE = 0;
     private static final int REQUEST_EXPECTED_WORKING_TIME = 1;
+    private static final int REQUEST_REMINDER_DATE = 2;
+    private static final int REQUEST_NOTE = 3;
 
     private Task mTask;
+    private TaskGroup mTaskGroup;
 
     private ImageButton mArrowBack;
     private EditText mTaskName;
     private TextView mTaskDeadline;
     private TextView mTaskExpectedWorkingTime;
+    private TextView mTaskReminder;
+    private TextView mTaskNote;
+    private TextView mTaskDurationAndTimes;
+    private TextView mGroupName;
 
     private RelativeLayout mTaskDeadlineLayout;
     private RelativeLayout mTaskReminderLayout;
@@ -59,33 +83,63 @@ public class TaskFragment extends Fragment {
     private Spinner mTaskPrioritySpinner;
     private RelativeLayout mTaskExpectedLayout;
     private RelativeLayout mTaskNoteLayout;
+
+    private RecyclerView mSubTaskRecycleView;
+    private SubTaskAdapter mSubTaskAdapter;
+    private EditText mAddSubTask;
+
+    //TODO 连数据库记得写onPause
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         int taskId = getArguments().getInt(ARG_TASK_ID);
         int taskGroupId = getArguments().getInt(ARG_TASK_GROUP_ID);
-        mTask = TaskLab.get(getActivity()).getTaskGroups(taskGroupId).getTask(taskId);
+        mTaskGroup = TaskLab.get(getActivity()).getTaskGroups(taskGroupId);
+        mTask = mTaskGroup.getTask(taskId);
     }
 
     public View onCreateView(LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_task,container,false);
+        View v = inflater.inflate(R.layout.fragment_task, container, false);
 
         mArrowBack = v.findViewById(R.id.arrow_back);
         mArrowBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //返回上层 manifest singletop
-                if(NavUtils.getParentActivityName(getActivity()) != null) {
+                if (NavUtils.getParentActivityName(getActivity()) != null) {
                     NavUtils.navigateUpFromSameTask(getActivity());
                 }
             }
         });
 
+        mGroupName = v.findViewById(R.id.detail_group_name);
+        mGroupName.setText(mTaskGroup.getName());
+
         mTaskName = v.findViewById(R.id.detail_task_name);
         mTaskName.setText(mTask.getTaskName());
+        mTaskName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                mTask.setTaskName(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        mTaskDurationAndTimes = v.findViewById(R.id.detail_task_duration_and_times);
+        mTaskDurationAndTimes.setText(getResources().getString(R.string.detail_duration_and_times,mTask.getWorkedTime(),mTask.getTimes()));
 
         mTaskDeadline = v.findViewById(R.id.detail_task_deadline);
-        if(mTask.getDeadline()!=null) {
+        if (mTask.getDeadline() != null) {
             mTaskDeadline.setText(new SimpleDateFormat("MM/d E", Locale.getDefault()).format(mTask.getDeadline()));
         } else {
             mTaskDeadline.setText("");
@@ -97,16 +151,27 @@ public class TaskFragment extends Fragment {
             public void onClick(View v) {
                 FragmentManager fm = getFragmentManager();
                 DatePickerFragment expectedDateDialog = DatePickerFragment.newInstance(mTask.getDeadline());
-                expectedDateDialog.setTargetFragment(TaskFragment.this,REQUEST_DEADLINE);
-                expectedDateDialog.show(fm,DIALOG_DEADLINE);
+                expectedDateDialog.setTargetFragment(TaskFragment.this, REQUEST_DEADLINE);
+                expectedDateDialog.show(fm, DIALOG_DEADLINE);
             }
         });
+
+        mTaskReminder = v.findViewById(R.id.detail_task_reminder);
+        if (mTask.getReminder() != null) {
+            mTaskReminder.setText(new SimpleDateFormat("MM/d E HH:mm", Locale.getDefault()).format(mTask.getReminder()));
+        } else {
+            mTaskReminder.setText("");
+        }
 
         mTaskReminderLayout = v.findViewById(R.id.detail_task_reminder_layout);
         mTaskReminderLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //two dialog with viewpager
+                FragmentManager fm = getFragmentManager();
+                ReminderPickerFragment reminderPickerDialog = ReminderPickerFragment.newInstance(mTask.getReminder());
+                reminderPickerDialog.setTargetFragment(TaskFragment.this, REQUEST_REMINDER_DATE);
+                reminderPickerDialog.show(fm, DIALOG_REMINDER);
             }
         });
 
@@ -116,13 +181,13 @@ public class TaskFragment extends Fragment {
         priority.add("Relax");
         priority.add("Normal");
         priority.add("Urgency");
-        mTaskPrioritySpinner.setAdapter(new MyAdatper(priority,getActivity()));
-        mTaskPrioritySpinner.setSelection(mTask.getPriority(),true);
+        mTaskPrioritySpinner.setAdapter(new MyAdatper(priority, getActivity()));
+        mTaskPrioritySpinner.setSelection(mTask.getPriority(), true);
         mTaskPrioritySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String selectedItem = parent.getItemAtPosition(position).toString();
-                switch(selectedItem){
+                switch (selectedItem) {
                     case "Relax":
                         mTask.setPriority(1);
                         break;
@@ -145,35 +210,70 @@ public class TaskFragment extends Fragment {
         });
 
         mTaskExpectedWorkingTime = v.findViewById(R.id.detail_task_expected);
-        mTaskExpectedWorkingTime.setText(String.format(Locale.getDefault(),"%d/%d",mTask.getWorkedTime(),mTask.getExpectedWorkingTime()));
-
+        if(mTask.getExpectedWorkingTime() !=0 ) {
+            mTaskExpectedWorkingTime.setText(String.format(Locale.getDefault(), "%.1f/%d", mTask.getWorkedTime(), mTask.getExpectedWorkingTime()));
+        } else {
+            mTaskExpectedWorkingTime.setText("");
+        }
         mTaskExpectedLayout = v.findViewById(R.id.detail_task_expected_layout);
         mTaskExpectedLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FragmentManager fm = getFragmentManager();
                 ExpectedTimeFragment expectedTimeFragment = ExpectedTimeFragment.newInstance(mTask.getExpectedWorkingTime());
-                expectedTimeFragment.setTargetFragment(TaskFragment.this,REQUEST_EXPECTED_WORKING_TIME);
-                expectedTimeFragment.show(fm,DIALOG_EXPECTED_WORKING_TIME);
+                expectedTimeFragment.setTargetFragment(TaskFragment.this, REQUEST_EXPECTED_WORKING_TIME);
+                expectedTimeFragment.show(fm, DIALOG_EXPECTED_WORKING_TIME);
             }
         });
+
+        mTaskNote = v.findViewById(R.id.detail_task_note);
+        if (mTask.getDetail() == null) {
+            mTaskNote.setTextColor(Color.GRAY);
+            mTaskNote.setText(R.string.detail_note);
+        } else {
+            mTaskNote.setText(mTask.getDetail());
+            mTaskNote.setTextColor(Color.GRAY);
+        }
 
         mTaskNoteLayout = v.findViewById(R.id.detail_task_note_layout);
         mTaskNoteLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //above keyboard
+                FragmentManager fm = getFragmentManager();
+                NoteFragment noteFragment = NoteFragment.newInstance(mTask.getDetail());
+                noteFragment.setTargetFragment(TaskFragment.this, REQUEST_NOTE);
+                noteFragment.show(fm, DIALOG_NOTE);
             }
         });
+
+        mSubTaskRecycleView = v.findViewById(R.id.subTask_recycler_view);
+        mSubTaskRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        mAddSubTask = v.findViewById(R.id.detail_add_sub_task);
+        mAddSubTask.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if(actionId == EditorInfo.IME_ACTION_DONE){
+                    SubTask subTask = new SubTask(mTask.getId());
+                    subTask.setSubTaskName(v.getText().toString());
+                    v.setText("");
+                    mTask.addSubtask(subTask);
+                    updateUI();
+                }
+                return false;
+            }
+        });
+
+        updateUI();
 
         return v;
     }
 
-    public static TaskFragment newInstance(int taskGroupId,int taskId) {
+    public static TaskFragment newInstance(int taskGroupId, int taskId) {
         Bundle args = new Bundle();
-        args.putSerializable(ARG_TASK_GROUP_ID,taskGroupId);
-        args.putSerializable(ARG_TASK_ID,taskId);
-        
+        args.putSerializable(ARG_TASK_GROUP_ID, taskGroupId);
+        args.putSerializable(ARG_TASK_ID, taskId);
+
         TaskFragment fragment = new TaskFragment();
         fragment.setArguments(args);
         return fragment;
@@ -181,33 +281,57 @@ public class TaskFragment extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(resultCode!= Activity.RESULT_OK){
+        if (resultCode != Activity.RESULT_OK) {
             return;
         }
 
-        if(requestCode == REQUEST_DEADLINE){
+        if (requestCode == REQUEST_DEADLINE) {
             try {
                 Date date = (Date) data.getSerializableExtra(DatePickerFragment.EXTRA_DEADLINE);
                 mTask.setDeadLine(new Timestamp(date.getTime()));
-                mTaskDeadline.setText(new SimpleDateFormat("MM/d E", Locale.getDefault()).format(mTask.getDeadline()));
-            }catch (Exception ex){
+                mTaskDeadline.setText(new SimpleDateFormat("MM/dd E", Locale.getDefault()).format(mTask.getDeadline()));
+            } catch (Exception ex) {
                 mTask.setDeadLine(null);
                 mTaskDeadline.setText("");
             }
-        } else if(requestCode == REQUEST_EXPECTED_WORKING_TIME){
+        } else if (requestCode == REQUEST_EXPECTED_WORKING_TIME) {
             int expectedWorkingTime = (int) data.getSerializableExtra(ExpectedTimeFragment.EXTRA_EXPECTED_WORKING_TIME);
             mTask.setExpectedWorkingTime(expectedWorkingTime);
-            mTaskExpectedWorkingTime.setText(String.format(Locale.getDefault(),"%d/%d",mTask.getWorkedTime(),mTask.getExpectedWorkingTime()));
+            if(expectedWorkingTime != 0) {
+                mTaskExpectedWorkingTime.setText(String.format(Locale.getDefault(), "%.1f/%d", mTask.getWorkedTime(), mTask.getExpectedWorkingTime()));
+            } else {
+                mTaskExpectedWorkingTime.setText("");
+            }
+        } else if (requestCode == REQUEST_REMINDER_DATE) {
+            try {
+                Date date = (Date) data.getSerializableExtra(ReminderPickerFragment.EXTRA_REMINDER_PICKER_DATE);
+                mTask.setReminder(new Timestamp(date.getTime()));
+                mTaskReminder.setText(new SimpleDateFormat("MM/dd E HH:mm", Locale.getDefault()).format(mTask.getReminder()));
+            } catch (Exception ex) {
+                mTask.setReminder(null);
+                mTaskReminder.setText("");
+            }
+        } else if (requestCode == REQUEST_NOTE) {
+            String note = (String) data.getSerializableExtra(NoteFragment.EXTRA_NOTE);
+            if (note != null) {
+                mTask.setDetail(note);
+                mTaskNote.setText(note);
+                mTaskNote.setTextColor(Color.GRAY);
+            } else {
+                mTask.setDetail(null);
+                mTaskNote.setText(R.string.detail_note);
+                mTaskNote.setTextColor(Color.GRAY);
+            }
         }
     }
 
-    public class MyAdatper extends BaseAdapter{
+    public class MyAdatper extends BaseAdapter {
         List<String> mPriority;
         Context mContext;
 
-        public MyAdatper(List<String> priority, Context context){
-            this.mPriority =priority;
-            mContext=context;
+        public MyAdatper(List<String> priority, Context context) {
+            this.mPriority = priority;
+            mContext = context;
         }
 
         @Override
@@ -242,8 +366,71 @@ public class TaskFragment extends Fragment {
             return convertView;
         }
 
-        private class MyViewHolder{
+        private class MyViewHolder {
             TextView mPriorityName;
         }
     }
+
+    private class SubTaskHolder extends RecyclerView.ViewHolder{
+
+        private CheckBox mIsFinish;
+        private EditText mSubTaskName;
+
+        private SubTask mSubTask;
+
+        public SubTaskHolder(LayoutInflater inflater, ViewGroup parent){
+            super(inflater.inflate(R.layout.list_item_subtask,parent,false));
+
+            mIsFinish = itemView.findViewById(R.id.subTask_finish);
+            mIsFinish.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    mSubTask.setFinish(isChecked);
+                }
+            });
+            mSubTaskName = itemView.findViewById(R.id.subTask_name);
+        }
+
+        public void bind(SubTask subTask){
+            mSubTask = subTask;
+            mIsFinish.setChecked(mSubTask.isFinish());
+            mSubTaskName.setText(mSubTask.getSubTaskName());
+        }
+    }
+
+    private class SubTaskAdapter extends RecyclerView.Adapter<SubTaskHolder> {
+
+        private List<SubTask> mSubtasks;
+
+        public SubTaskAdapter(List<SubTask> subTasks){
+            mSubtasks = subTasks;
+        }
+
+        @Override
+        public SubTaskHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
+            return new SubTaskHolder(layoutInflater,parent);
+        }
+
+        @Override
+        public void onBindViewHolder(SubTaskHolder holder, int position) {
+            SubTask subTask = mSubtasks.get(position);
+            holder.bind(subTask);
+        }
+
+        @Override
+        public int getItemCount() {
+            return mSubtasks.size();
+        }
+    }
+
+    private void updateUI(){
+        if(mSubTaskAdapter==null) {
+            mSubTaskAdapter = new SubTaskAdapter(mTask.getSubTasks());
+            mSubTaskRecycleView.setAdapter(mSubTaskAdapter);
+        } else {
+            mSubTaskAdapter.notifyDataSetChanged();
+        }
+    }
+
 }

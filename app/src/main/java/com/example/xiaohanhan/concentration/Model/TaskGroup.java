@@ -17,8 +17,8 @@ public class TaskGroup {
         mId = (int)(Math.random() * 1000);
         mName = Integer.toString(mId);
         mTasks = new ArrayList<>();
-        for(int i=0;i<15;i++){
-            Task t = new Task();
+        for(int i=0;i<3;i++){
+            Task t = new Task(mId);
             mTasks.add(t);
         }
     }

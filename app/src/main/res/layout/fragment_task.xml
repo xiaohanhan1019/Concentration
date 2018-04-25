@@ -9,20 +9,22 @@
         android:orientation="vertical">
 
         <android.support.v7.widget.Toolbar
+            android:id="@+id/detail_task_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorAccent">
+            android:background="@color/colorOrangeRed">
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp">
 
                 <ImageButton
                     android:id="@+id/arrow_back"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
-                    android:background="@color/colorTransparent"
+                    android:background="?android:attr/selectableItemBackground"
                     android:src="@drawable/ic_action_arrow_back" />
 
                 <LinearLayout
@@ -37,10 +39,12 @@
                         android:src="@drawable/ic_action_tag" />
 
                     <TextView
+                        android:id="@+id/detail_group_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:text="GroupName" />
+                        android:text="GroupName"
+                        android:textColor="@color/colorWhite"/>
 
                 </LinearLayout>
 
@@ -48,18 +52,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
-                    android:background="@color/colorTransparent"
-                    android:paddingEnd="8dp"
-                    android:paddingStart="8dp"
+                    android:background="?android:attr/selectableItemBackground"
                     android:src="@drawable/ic_action_chart" />
 
             </FrameLayout>
+
         </android.support.v7.widget.Toolbar>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorAccent"
+            android:background="@color/colorOrangeRed"
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:orientation="vertical">
@@ -74,9 +77,12 @@
                 android:singleLine="true"
                 android:text="Android"
                 android:textColor="@color/colorWhite"
-                android:textSize="24sp" />
+                android:textSize="24sp"
+                android:textCursorDrawable="@drawable/my_cursor"
+                android:imeOptions="actionDone"/>
 
             <TextView
+                android:id="@+id/detail_task_duration_and_times"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -95,13 +101,15 @@
             <RelativeLayout
                 android:id="@+id/detail_task_deadline_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:background="?android:attr/selectableItemBackground">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:padding="8dp">
+                    android:padding="8dp"
+                    android:background="?android:attr/selectableItemBackground">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -131,7 +139,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:text="07/31 Tues 00:00"
+                        android:text="07/31 Tues"
                         android:textSize="14sp" />
 
                     <TextView
@@ -147,7 +155,8 @@
             <RelativeLayout
                 android:id="@+id/detail_task_reminder_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:background="?android:attr/selectableItemBackground">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -206,7 +215,6 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:padding="8dp">
-
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -237,7 +245,7 @@
                         android:layout_gravity="center"
                         android:gravity="center"
                         android:textSize="14sp"
-                        android:popupBackground="@drawable/edit_text_background"/>
+                        android:popupBackground="@drawable/spinner_background"/>
 
                 </LinearLayout>
 
@@ -246,7 +254,8 @@
             <RelativeLayout
                 android:id="@+id/detail_task_expected_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:background="?android:attr/selectableItemBackground">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -298,7 +307,8 @@
             <RelativeLayout
                 android:id="@+id/detail_task_note_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:background="?android:attr/selectableItemBackground">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -312,12 +322,14 @@
                         android:background="@drawable/ic_action_note" />
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:id="@+id/detail_task_note"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:layout_marginEnd="24dp"
                         android:paddingEnd="8dp"
                         android:paddingStart="8dp"
-                        android:text="Note"
+                        android:text="@string/detail_note"
                         android:textSize="16sp" />
 
                 </LinearLayout>
@@ -351,20 +363,25 @@
                     android:background="@drawable/ic_action_add" />
 
                 <EditText
+                    android:id="@+id/detail_add_sub_task"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:background="@null"
                     android:hint="Add subtask"
                     android:singleLine="true"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:imeOptions="actionDone"/>
 
             </LinearLayout>
 
             <android.support.v7.widget.RecyclerView
+                android:id="@+id/subTask_recycler_view"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="8dp"></android.support.v7.widget.RecyclerView>
+                android:layout_height="match_parent"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp">
+            </android.support.v7.widget.RecyclerView>
 
         </LinearLayout>
 

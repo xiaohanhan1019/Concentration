@@ -6,17 +6,12 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.LinearGradient;
 import android.graphics.Matrix;
 import android.graphics.Paint;
-import android.graphics.Path;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import android.graphics.Shader;
 import android.util.AttributeSet;
 import android.view.View;
-
-import com.example.xiaohanhan.concentration.R;
 
 import java.util.Locale;
 
@@ -24,7 +19,7 @@ import java.util.Locale;
  * Created by xiaohanhan on 2018/4/18.
  */
 
-public class CircleProgressView extends View {
+public class CircleProgressView extends View implements Runnable{
 
     // 画实心圆的画笔
     private Paint mCirclePaint;
@@ -74,6 +69,10 @@ public class CircleProgressView extends View {
     private RectF mRingBgRect;
     // 进度条
     private RectF mRingRect;
+    // 是否中断
+    private boolean mIsInterrupt;
+    // 实际学习时间
+    private double mWorkingTime;
 
     public CircleProgressView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -166,50 +165,55 @@ public class CircleProgressView extends View {
         mRingBgRect.bottom = mRingRadius * 2 + (mYCenter - mRingRadius);
         canvas.drawArc(mRingBgRect, 0, 360, false, mRingBgPaint); //圆环所在的椭圆对象、圆环的起始角度、圆环的角度、是否显示半径连线
 
-        //进度条显示 无进度条显示开始键
-        if (mCurrentTime > 0 && mCurrentProgress!=100) {
-            mRingRect.left = (mXCenter - mRingRadius);
-            mRingRect.top = (mYCenter - mRingRadius);
-            mRingRect.right = mRingRadius * 2 + (mXCenter - mRingRadius);
-            mRingRect.bottom = mRingRadius * 2 + (mYCenter - mRingRadius);
-            canvas.drawArc(mRingRect, -90, ((float) mCurrentProgress / mTotalProgress) * 360, false, mRingPaint); //
-
-            //字体
-            String txt = getTxt(mCurrentTime);
-            mTxtWidth = mTextPaint.measureText(txt, 0, txt.length());
-            canvas.drawText(txt, mXCenter - mTxtWidth / 2, mYCenter + mTxtHeight / 4, mTextPaint);
-        } else {
-            mSrcRect.left = 0;
-            mSrcRect.top = 0;
-            mSrcRect.right = mStartBitmap.getWidth();
-            mSrcRect.bottom = mStartBitmap.getHeight();
-            mDestRect.left = (int)(mXCenter - 0.28*mRingRadius);
-            mDestRect.top = (int)(mYCenter - 0.33*mRingRadius);
-            mDestRect.right = (int)(mXCenter + 0.38*mRingRadius);
-            mDestRect.bottom = (int)(mYCenter + 0.33*mRingRadius);
+        //原本有播放键
+//        //进度条显示 无进度条显示开始键
+//        if (mCurrentTime > 0 && mCurrentProgress!=100) {
+//            mRingRect.left = (mXCenter - mRingRadius);
+//            mRingRect.top = (mYCenter - mRingRadius);
+//            mRingRect.right = mRingRadius * 2 + (mXCenter - mRingRadius);
+//            mRingRect.bottom = mRingRadius * 2 + (mYCenter - mRingRadius);
+//            canvas.drawArc(mRingRect, -90, ((float) mCurrentProgress / mTotalProgress) * 360, false, mRingPaint); //
+//
+//            //字体
+//            String txt = getTxt(mCurrentTime);
+//            mTxtWidth = mTextPaint.measureText(txt, 0, txt.length());
+//            canvas.drawText(txt, mXCenter - mTxtWidth / 2, mYCenter + mTxtHeight / 4, mTextPaint);
+//        } else {
+//            mSrcRect.left = 0;
+//            mSrcRect.top = 0;
+//            mSrcRect.right = mStartBitmap.getWidth();
+//            mSrcRect.bottom = mStartBitmap.getHeight();
+//            mDestRect.left = (int)(mXCenter - 0.28*mRingRadius);
+//            mDestRect.top = (int)(mYCenter - 0.33*mRingRadius);
+//            mDestRect.right = (int)(mXCenter + 0.38*mRingRadius);
+//            mDestRect.bottom = (int)(mYCenter + 0.33*mRingRadius);
 //            canvas.drawRect(mSrcRect,mRingBgPaint);
 //            canvas.drawRect(mDestRect,mRingBgPaint);
-            canvas.drawBitmap(mStartBitmap,mSrcRect,mDestRect,mBitPaint);
-        }
+//            canvas.drawBitmap(mStartBitmap,mSrcRect,mDestRect,mBitPaint);
+//        }
+
+        mRingRect.left = (mXCenter - mRingRadius);
+        mRingRect.top = (mYCenter - mRingRadius);
+        mRingRect.right = mRingRadius * 2 + (mXCenter - mRingRadius);
+        mRingRect.bottom = mRingRadius * 2 + (mYCenter - mRingRadius);
+        canvas.drawArc(mRingRect, -90, ((float) mCurrentProgress / mTotalProgress) * 360, false, mRingPaint); //
+
+        //字体
+        String txt = getTxt(mCurrentTime);
+        mTxtWidth = mTextPaint.measureText(txt, 0, txt.length());
+        canvas.drawText(txt, mXCenter - mTxtWidth / 2, mYCenter + mTxtHeight / 4, mTextPaint);
 
     }
 
     //定时
     public void setTotalTime(int totalTime){
         mTotalTime = totalTime;
-    }
-
-    //设置进度
-    public void setProgress(int currentTime) {
-        mCurrentTime=currentTime;
-        mCurrentProgress = currentTime*mTotalProgress/mTotalTime;
-        //重绘
-        postInvalidate();
+        mCurrentTime = totalTime;
     }
 
     //设置文字
     private String getTxt(int currentTime){
-        int remainTime = mTotalTime - currentTime;
+        int remainTime = currentTime;
         int h=remainTime/3600;
         remainTime = remainTime - h*3600;
         int m=remainTime / 60;
@@ -241,4 +245,36 @@ public class CircleProgressView extends View {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 
+    public void setInterrupt(boolean interrupt) {
+        mIsInterrupt = interrupt;
+    }
+
+    public void start(){
+        Thread timer = new Thread(this);
+        timer.start();
+    }
+
+    @Override
+    public void run() {
+        try {
+            Thread.sleep(1000);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        while (mCurrentTime > 0 && !mIsInterrupt) {
+            mCurrentTime -= 1;
+            mCurrentProgress = (mTotalTime-mCurrentTime)*mTotalProgress/mTotalTime;
+            postInvalidate();
+            try {
+                Thread.sleep(100);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        mWorkingTime = ((double)mTotalTime-mCurrentTime)/60.0;
+    }
+
+    public double getWorkingTime() {
+        return mWorkingTime;
+    }
 }

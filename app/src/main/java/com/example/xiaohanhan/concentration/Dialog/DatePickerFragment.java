@@ -1,4 +1,4 @@
-package com.example.xiaohanhan.concentration;
+package com.example.xiaohanhan.concentration.Dialog;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -11,6 +11,8 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.DatePicker;
+
+import com.example.xiaohanhan.concentration.R;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -66,8 +68,8 @@ public class DatePickerFragment extends DialogFragment {
                         sendResult(Activity.RESULT_OK,date);
                     }
                 })
-                .setNegativeButton("cancel",null)
-                .setNeutralButton("clear", new DialogInterface.OnClickListener() {
+                .setNegativeButton("Cancel",null)
+                .setNeutralButton("Clear", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         sendResult(Activity.RESULT_OK,null);

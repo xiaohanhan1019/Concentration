@@ -1,4 +1,4 @@
-package com.example.xiaohanhan.concentration;
+package com.example.xiaohanhan.concentration.Dialog;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -11,6 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 
+import com.example.xiaohanhan.concentration.R;
+
 import java.util.Locale;
 
 /**
@@ -19,7 +21,7 @@ import java.util.Locale;
 
 public class ExpectedTimeFragment extends DialogFragment {
 
-    static final String EXTRA_EXPECTED_WORKING_TIME = "ExpectedTimeFragment_Expected_working_time";
+    public static final String EXTRA_EXPECTED_WORKING_TIME = "ExpectedTimeFragment_Expected_working_time";
 
     static final String ARG_EXPECTED_WORKING_TIME = "expected_working_time";
 
@@ -42,6 +44,7 @@ public class ExpectedTimeFragment extends DialogFragment {
 
         mEditText = v.findViewById(R.id.expected_working_time);
         mEditText.setText(String.format(Locale.getDefault(),"%d",expectedWorkingTime));
+        mEditText.setSelection(mEditText.getText().length());
 
         return new AlertDialog.Builder(getActivity())
                 .setView(v)

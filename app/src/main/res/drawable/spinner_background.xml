@@ -10,8 +10,8 @@
             <corners
                 android:radius="3dip" />
             <stroke
-                android:width="2px"
-                android:color="@color/colorAccent"/>
+                android:width="1px"
+                android:color="@color/colorDefault"/>
         </shape>
     </item>
 </layer-list>
