@@ -10,6 +10,7 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.os.AsyncTask;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -19,7 +20,7 @@ import java.util.Locale;
  * Created by xiaohanhan on 2018/4/18.
  */
 
-public class CircleProgressView extends View implements Runnable{
+public class CircleProgressView extends View{
 
     // 画实心圆的画笔
     private Paint mCirclePaint;
@@ -69,10 +70,6 @@ public class CircleProgressView extends View implements Runnable{
     private RectF mRingBgRect;
     // 进度条
     private RectF mRingRect;
-    // 是否中断
-    private boolean mIsInterrupt;
-    // 实际学习时间
-    private double mWorkingTime;
 
     public CircleProgressView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -207,8 +204,16 @@ public class CircleProgressView extends View implements Runnable{
 
     //定时
     public void setTotalTime(int totalTime){
-        mTotalTime = totalTime;
         mCurrentTime = totalTime;
+        mTotalTime = totalTime;
+    }
+
+    //设置进度
+    public void setProgress(int currentTime) {
+        mCurrentTime=mTotalTime-currentTime;
+        mCurrentProgress = currentTime*mTotalProgress/mTotalTime;
+        //重绘
+        postInvalidate();
     }
 
     //设置文字
@@ -245,36 +250,4 @@ public class CircleProgressView extends View implements Runnable{
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 
-    public void setInterrupt(boolean interrupt) {
-        mIsInterrupt = interrupt;
-    }
-
-    public void start(){
-        Thread timer = new Thread(this);
-        timer.start();
-    }
-
-    @Override
-    public void run() {
-        try {
-            Thread.sleep(1000);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        while (mCurrentTime > 0 && !mIsInterrupt) {
-            mCurrentTime -= 1;
-            mCurrentProgress = (mTotalTime-mCurrentTime)*mTotalProgress/mTotalTime;
-            postInvalidate();
-            try {
-                Thread.sleep(100);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        mWorkingTime = ((double)mTotalTime-mCurrentTime)/60.0;
-    }
-
-    public double getWorkingTime() {
-        return mWorkingTime;
-    }
 }

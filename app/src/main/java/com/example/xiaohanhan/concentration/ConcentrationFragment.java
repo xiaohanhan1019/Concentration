@@ -2,6 +2,7 @@ package com.example.xiaohanhan.concentration;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -17,6 +18,8 @@ import android.widget.Toast;
 
 import com.example.xiaohanhan.concentration.Model.Task;
 import com.example.xiaohanhan.concentration.Model.TaskLab;
+
+import java.lang.ref.WeakReference;
 
 /**
  * Created by xiaohanhan on 2018/4/18.
@@ -34,6 +37,7 @@ public class ConcentrationFragment extends Fragment{
     private Task mTask;
 
     private int mTime;
+    private ConcentrateTask mConcentrateTask;
 
     public static ConcentrationFragment newInstance(int groupId,int taskId) {
 
@@ -68,23 +72,83 @@ public class ConcentrationFragment extends Fragment{
 
         mCircleProgressView = v.findViewById(R.id.circle_progress_view);
         mCircleProgressView.setTotalTime(mTime);
-        mCircleProgressView.start();
+        mConcentrateTask = new ConcentrateTask(this,mCircleProgressView,mTime);
+        mConcentrateTask.execute();
 
         mHoldDownButton = v.findViewById(R.id.concentrate_hold_down);
         mHoldDownButton.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                mCircleProgressView.setInterrupt(true);
+                mConcentrateTask.setInterrupt(true);
                 if (NavUtils.getParentActivityName(getActivity()) != null) {
                     NavUtils.navigateUpFromSameTask(getActivity());
                 }
-                mTask.setTimes(mTask.getTimes()+1);
-                mTask.setWorkedTime(mTask.getWorkedTime()+mCircleProgressView.getWorkingTime());
                 return false;
             }
         });
 
         return v;
+    }
+
+    private static class ConcentrateTask extends AsyncTask<Void,Integer,Void>{
+
+        private WeakReference<ConcentrationFragment> mConcentrationFragmentWeakReference;
+        private WeakReference<CircleProgressView> mCircleProgressViewWeakReference;
+        private int mTotalTime;
+        private int mCurrentTime = 0;
+        private boolean mIsInterrupt;
+
+        public void setInterrupt(boolean interrupt) {
+            mIsInterrupt = interrupt;
+        }
+
+        public ConcentrateTask(ConcentrationFragment concentrationFragment,CircleProgressView circleProgressView,int totalTime){
+            mConcentrationFragmentWeakReference = new WeakReference<>(concentrationFragment);
+            mCircleProgressViewWeakReference = new WeakReference<>(circleProgressView);
+            mTotalTime = totalTime;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            try {
+                Thread.sleep(1000);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            while (mCurrentTime < mTotalTime && !mIsInterrupt) {
+                mCurrentTime += 1;
+                publishProgress(mCurrentTime);
+                try {
+                    Thread.sleep(100);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            return null;
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            CircleProgressView circleProgressView = mCircleProgressViewWeakReference.get();
+            circleProgressView.setProgress(mCurrentTime);
+
+            super.onProgressUpdate(values);
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            ConcentrationFragment concentrationFragment = mConcentrationFragmentWeakReference.get();
+
+            if(concentrationFragment == null || concentrationFragment.getActivity().isFinishing()){
+                return;
+            } else {
+                Task task = concentrationFragment.mTask;
+                concentrationFragment.mTask.setTimes(task.getTimes()+1);
+                concentrationFragment.mTask.setWorkedTime(task.getWorkedTime()+mCurrentTime/60.0);
+            }
+
+            super.onPostExecute(aVoid);
+        }
     }
 
     //TODO saveBundle
