@@ -1,6 +1,6 @@
 package com.example.xiaohanhan.concentration;
 
-import android.content.Context;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,17 +8,13 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.xiaohanhan.concentration.Dialog.InterruptionFragment;
 import com.example.xiaohanhan.concentration.Model.Task;
 import com.example.xiaohanhan.concentration.Model.TaskGroup;
 import com.example.xiaohanhan.concentration.Model.TaskLab;
@@ -34,6 +30,11 @@ import java.util.Locale;
 public class TaskListFragment extends Fragment{
 
     private static final String ARG_TASK_GROUP_ID = "task_group_id";
+
+    private static final int REQUEST_CONCENTRATION = 0;
+    private static final int REQUEST_INTERRUPT = 1;
+
+    private static final String DIALOG_INTERRUPT = "dialog_interrupt";
 
     private TaskGroup mTaskGroup;
 
@@ -102,7 +103,7 @@ public class TaskListFragment extends Fragment{
                 @Override
                 public void onClick(View v) {
                     Intent intent = ConcentrationActivity.newIntent(getActivity(), mTaskGroup.getId(),mTask.getId());
-                    startActivity(intent);
+                    startActivityForResult(intent,REQUEST_CONCENTRATION);
                 }
             });
         }
@@ -147,6 +148,22 @@ public class TaskListFragment extends Fragment{
             //先跳转到activity 通过activity跳转到fragment 可能有更好的办法
             Intent intent = TaskActivity.newIntent(getActivity(), mTaskGroup.getId(),mTask.getId());
             startActivity(intent);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if(resultCode == ConcentrationFragment.RESULT_CONCENTRATION) {
+            if (requestCode == REQUEST_CONCENTRATION) {
+                boolean isInterrupt = (boolean) data.getSerializableExtra(ConcentrationFragment.EXTRA_IS_INTERRPUTED);
+                if (isInterrupt) {
+                    FragmentManager fm = getFragmentManager();
+                    InterruptionFragment interruptionFragment = new InterruptionFragment();
+                    //interruptionFragment.setTargetFragment(TaskListFragment.this, REQUEST_INTERRUPT);
+                    interruptionFragment.show(fm, DIALOG_INTERRUPT);
+                }
+            }
         }
     }
 

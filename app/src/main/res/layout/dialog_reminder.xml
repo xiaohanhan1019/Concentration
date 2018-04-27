@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/reminder_view_pager"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+    </android.support.v4.view.ViewPager>
+
+    <ImageButton
+        android:id="@+id/reminder_arrow_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/reminder_bottom_linear_layout"
+        android:layout_alignParentStart="true"
+        android:background="@drawable/ic_action_left"
+        android:layout_marginBottom="8dp"
+        android:padding="8dp" />
+
+    <ImageButton
+        android:id="@+id/reminder_arrow_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/reminder_bottom_linear_layout"
+        android:layout_alignParentEnd="true"
+        android:background="@drawable/ic_action_right"
+        android:layout_marginBottom="8dp"
+        android:padding="8dp" />
+
+    <LinearLayout
+        android:id="@+id/reminder_bottom_linear_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:paddingBottom="8dp">
+
+        <Button
+            android:id="@+id/reminder_clear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:background="@color/colorTransparent"
+            android:text="Clear"
+            android:textColor="@color/colorAccent" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="end">
+
+            <Button
+                android:id="@+id/reminder_cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/colorTransparent"
+                android:text="Cancel"
+                android:textColor="@color/colorAccent" />
+
+            <Button
+                android:id="@+id/reminder_ok"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/colorTransparent"
+                android:text="OK"
+                android:textColor="@color/colorAccent" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

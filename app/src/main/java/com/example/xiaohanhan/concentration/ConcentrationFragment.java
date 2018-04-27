@@ -1,20 +1,19 @@
 package com.example.xiaohanhan.concentration;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.NavUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.xiaohanhan.concentration.Model.Task;
 import com.example.xiaohanhan.concentration.Model.TaskLab;
@@ -27,8 +26,12 @@ import java.lang.ref.WeakReference;
 
 public class ConcentrationFragment extends Fragment{
 
+    public static final String EXTRA_IS_INTERRPUTED = "Concentration_fragment_is_interrupt";
+
     private static final String ARG_TASK_GROUP_ID = "task_group_id";
     private static final String ARG_TASK_ID = "task_id";
+
+    public static final int RESULT_CONCENTRATION = 1;
 
     private CircleProgressView mCircleProgressView;
     private TextView mTaskName;
@@ -54,6 +57,7 @@ public class ConcentrationFragment extends Fragment{
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         SharedPreferences userSettings = getActivity().getSharedPreferences("Concentration_setting", Context.MODE_PRIVATE);
         mTime = userSettings.getInt(MyApplication.PREFERENCE_SETTINGS_WORKING_TIME,50);
 
@@ -80,9 +84,6 @@ public class ConcentrationFragment extends Fragment{
             @Override
             public boolean onLongClick(View v) {
                 mConcentrateTask.setInterrupt(true);
-                if (NavUtils.getParentActivityName(getActivity()) != null) {
-                    NavUtils.navigateUpFromSameTask(getActivity());
-                }
                 return false;
             }
         });
@@ -96,10 +97,10 @@ public class ConcentrationFragment extends Fragment{
         private WeakReference<CircleProgressView> mCircleProgressViewWeakReference;
         private int mTotalTime;
         private int mCurrentTime = 0;
-        private boolean mIsInterrupt;
+        private boolean mIsInterrupted;
 
         public void setInterrupt(boolean interrupt) {
-            mIsInterrupt = interrupt;
+            mIsInterrupted = interrupt;
         }
 
         public ConcentrateTask(ConcentrationFragment concentrationFragment,CircleProgressView circleProgressView,int totalTime){
@@ -115,11 +116,11 @@ public class ConcentrationFragment extends Fragment{
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            while (mCurrentTime < mTotalTime && !mIsInterrupt) {
+            while (mCurrentTime < mTotalTime && !mIsInterrupted) {
                 mCurrentTime += 1;
                 publishProgress(mCurrentTime);
                 try {
-                    Thread.sleep(100);
+                    Thread.sleep(200);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -147,8 +148,22 @@ public class ConcentrationFragment extends Fragment{
                 concentrationFragment.mTask.setWorkedTime(task.getWorkedTime()+mCurrentTime/60.0);
             }
 
+            if(!mIsInterrupted) {
+                concentrationFragment.sendResult(RESULT_CONCENTRATION,false);
+            } else {
+                concentrationFragment.sendResult(RESULT_CONCENTRATION,true);
+            }
+
             super.onPostExecute(aVoid);
         }
+    }
+
+    private void sendResult(int resultCode, boolean isInterrupted){
+        Intent intent = new Intent();
+        intent.putExtra(EXTRA_IS_INTERRPUTED,isInterrupted);
+
+        getActivity().setResult(resultCode,intent);
+        getActivity().finish();
     }
 
     //TODO saveBundle

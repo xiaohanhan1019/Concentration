@@ -2,16 +2,23 @@ package com.example.xiaohanhan.concentration.Dialog;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.DisplayMetrics;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.ImageButton;
 import android.widget.TimePicker;
 
 import com.example.xiaohanhan.concentration.R;
@@ -35,6 +42,7 @@ public class ReminderPickerFragment extends android.support.v4.app.DialogFragmen
 
     private DatePicker mDatePicker;
     private TimePicker mTimePicker;
+    private ViewPager mViewPager;
 
     public static ReminderPickerFragment newInstance(Date date) {
         Bundle args = new Bundle();
@@ -47,12 +55,17 @@ public class ReminderPickerFragment extends android.support.v4.app.DialogFragmen
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_reminder,null);
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_reminder,null);
 
-        ViewPager viewPager = view.findViewById(R.id.reminder_view_pager);
+        Window window = getDialog().getWindow();
+        if(window!=null) {
+            window.setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+        }
+
+        mViewPager = view.findViewById(R.id.reminder_view_pager);
         List<Fragment> fragments = getFragments();
         myViewPagerAdapter = new MyViewPagerAdapter(getChildFragmentManager(), fragments);
-        viewPager.setAdapter(myViewPagerAdapter);
+        mViewPager.setAdapter(myViewPagerAdapter);
 
         Button okButton = view.findViewById(R.id.reminder_ok);
         okButton.setOnClickListener(new View.OnClickListener() {
@@ -88,7 +101,45 @@ public class ReminderPickerFragment extends android.support.v4.app.DialogFragmen
             }
         });
 
+        ImageButton nextButton = view.findViewById(R.id.reminder_arrow_right);
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int idx = mViewPager.getCurrentItem();
+                if(idx!=1){
+                    mViewPager.setCurrentItem(idx+1);
+                }
+            }
+        });
+
+        ImageButton previousButton = view.findViewById(R.id.reminder_arrow_left);
+        previousButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int idx = mViewPager.getCurrentItem();
+                if(idx!=0){
+                    mViewPager.setCurrentItem(idx-1);
+                }
+            }
+        });
+
         return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Window window = getDialog().getWindow();
+        if(window!=null) {
+            DisplayMetrics dm = new DisplayMetrics();
+            getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
+
+            WindowManager.LayoutParams params = window.getAttributes();
+            params.gravity = Gravity.CENTER;
+            params.width = (int) (dm.widthPixels * 0.85);
+            params.height = (int) (dm.heightPixels * 0.85);
+            window.setAttributes(params);
+        }
     }
 
     private List<Fragment> getFragments() {
