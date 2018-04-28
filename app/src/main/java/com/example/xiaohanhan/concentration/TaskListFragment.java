@@ -34,7 +34,7 @@ public class TaskListFragment extends Fragment{
     private static final int REQUEST_CONCENTRATION = 0;
     private static final int REQUEST_INTERRUPT = 1;
 
-    private static final String DIALOG_INTERRUPT = "dialog_interrupt";
+    private static final String DIALOG_INTERRUPT = "dialog_interruption";
 
     private TaskGroup mTaskGroup;
 

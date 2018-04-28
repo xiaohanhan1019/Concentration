@@ -48,10 +48,6 @@ public class Task {
         return mId;
     }
 
-    public void setId(int id) {
-        mId = id;
-    }
-
     public int getUserId() {
         return mUserId;
     }
@@ -159,4 +155,9 @@ public class Task {
     public void addSubtask(SubTask subTask){
         mSubTasks.add(subTask);
     }
+
+    public int getGroupId() {
+        return mGroupId;
+    }
+
 }

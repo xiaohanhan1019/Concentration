@@ -13,4 +13,7 @@
         <item quantity="other">%1$d crimes</item>
     </plurals>
     <string name="detail_duration_and_times">Duration: %1$.1f mins | Work: %2$d times</string>
+
+    <!-- dialog_interruption -->
+    <string name="interruption_add_reason">Add Reason</string>
 </resources>

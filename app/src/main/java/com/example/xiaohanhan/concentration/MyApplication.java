@@ -19,6 +19,7 @@ public class MyApplication extends Application {
         super.onCreate();
         SharedPreferences mUserSettings = getSharedPreferences("Concentration_setting", Context.MODE_PRIVATE);
         mUserSettings.edit().putInt(MyApplication.PREFERENCE_SETTINGS_WORKING_TIME,mDefaultWorkingTime).apply();
+
     }
 
 }
