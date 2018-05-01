@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">#FA6469</color>
     <color name="colorAccentOpacity">#E0FF4081</color>
     <color name="color_progressBar_ringBgColor">#55AAAAAA</color>
     <color name="color_progressBar_ringColor">#EEEEEE</color>

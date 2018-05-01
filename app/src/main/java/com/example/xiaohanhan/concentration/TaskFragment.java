@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -76,6 +77,7 @@ public class TaskFragment extends Fragment {
     private TextView mTaskNote;
     private TextView mTaskDurationAndTimes;
     private TextView mGroupName;
+    private Button mDeleteTask;
 
     private RelativeLayout mTaskDeadlineLayout;
     private RelativeLayout mTaskReminderLayout;
@@ -180,7 +182,7 @@ public class TaskFragment extends Fragment {
         priority.add("Not set");
         priority.add("Relax");
         priority.add("Normal");
-        priority.add("Urgency");
+        priority.add("Urgent");
         mTaskPrioritySpinner.setAdapter(new MyAdatper(priority, getActivity()));
         mTaskPrioritySpinner.setSelection(mTask.getPriority(), true);
         mTaskPrioritySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -194,7 +196,7 @@ public class TaskFragment extends Fragment {
                     case "Normal":
                         mTask.setPriority(2);
                         break;
-                    case "Urgency":
+                    case "Urgent":
                         mTask.setPriority(3);
                         break;
                     default:
@@ -253,7 +255,7 @@ public class TaskFragment extends Fragment {
         mAddSubTask.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if(actionId == EditorInfo.IME_ACTION_DONE){
+                if(actionId == EditorInfo.IME_ACTION_DONE && !v.getText().toString().equals("")){
                     SubTask subTask = new SubTask(mTask.getId());
                     subTask.setSubTaskName(v.getText().toString());
                     v.setText("");
@@ -261,6 +263,15 @@ public class TaskFragment extends Fragment {
                     updateUI();
                 }
                 return false;
+            }
+        });
+
+        mDeleteTask = v.findViewById(R.id.detail_delete_task);
+        mDeleteTask.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mTaskGroup.deleteTask(mTask.getId());
+                getActivity().finish();
             }
         });
 

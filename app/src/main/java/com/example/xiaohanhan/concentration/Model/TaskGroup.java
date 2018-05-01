@@ -13,6 +13,9 @@ public class TaskGroup {
     private String mName;
     private List<Task> mTasks;
 
+    public static final String KEY_id = "id";
+    public static final String KEY_groupName = "group_name";
+
     public TaskGroup (){
         mId = (int)(Math.random() * 1000);
         mName = Integer.toString(mId);
@@ -20,6 +23,14 @@ public class TaskGroup {
         for(int i=0;i<3;i++){
             Task t = new Task(mId);
             mTasks.add(t);
+        }
+    }
+
+    public void deleteTask(int id){
+        for(int i=0;i<mTasks.size();i++){
+            if(mTasks.get(i).getId()==id){
+                mTasks.remove(i);
+            }
         }
     }
 
@@ -46,6 +57,10 @@ public class TaskGroup {
                 t=task;
             }
         }
+    }
+
+    public int getTaskNumber(){
+        return mTasks.size();
     }
 
     public int getId() {

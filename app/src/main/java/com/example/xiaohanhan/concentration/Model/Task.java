@@ -26,6 +26,10 @@ public class Task {
     private String mDetail;
     private boolean mIsFinish;
 
+    public static final String KEY_id = "id";
+    public static final String KEY_task_group_id = "task_group_id";
+
+
     private List<SubTask> mSubTasks;
 
     public Task(int groupId){
@@ -42,6 +46,10 @@ public class Task {
         mDetail = null;
         mIsFinish = false;
         mSubTasks = new ArrayList<>();
+    }
+
+    public void setId(int id) {
+        mId = id;
     }
 
     public int getId() {

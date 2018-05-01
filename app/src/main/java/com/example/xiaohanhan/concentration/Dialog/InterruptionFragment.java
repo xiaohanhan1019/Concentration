@@ -17,7 +17,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -36,9 +35,9 @@ import java.util.Locale;
 
 public class InterruptionFragment extends DialogFragment {
 
-    private EditText mInterruptName;
+    private EditText mAddInterruptName;
 
-    private RecyclerView mInterruptionRecycleView;
+    private RecyclerView mInterruptionRecyclerView;
     private InterruptionAdapter mInterruptionAdapter;
 
     private List<Interruption> mInterruptions;
@@ -61,8 +60,8 @@ public class InterruptionFragment extends DialogFragment {
             window.setBackgroundDrawable(ContextCompat.getDrawable(getActivity(),R.drawable.interrupt_dialog_background));
         }
 
-        mInterruptName = view.findViewById(R.id.add_interruption_name);
-        mInterruptName.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        mAddInterruptName = view.findViewById(R.id.add_interruption_name);
+        mAddInterruptName.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if(actionId == EditorInfo.IME_ACTION_DONE){
@@ -79,15 +78,15 @@ public class InterruptionFragment extends DialogFragment {
         addInterrupt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mInterruptName.requestFocus();
+                mAddInterruptName.requestFocus();
                 InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                 if(imm!=null)
-                    imm.showSoftInput(mInterruptName, InputMethodManager.SHOW_IMPLICIT);
+                    imm.showSoftInput(mAddInterruptName, InputMethodManager.SHOW_IMPLICIT);
             }
         });
 
-        mInterruptionRecycleView = view.findViewById(R.id.interruption_recycler_view);
-        mInterruptionRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mInterruptionRecyclerView = view.findViewById(R.id.interruption_recycler_view);
+        mInterruptionRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         updateUI();
 
@@ -169,7 +168,7 @@ public class InterruptionFragment extends DialogFragment {
     private void updateUI(){
         if(mInterruptionAdapter==null) {
             mInterruptionAdapter = new InterruptionAdapter(mInterruptions);
-            mInterruptionRecycleView.setAdapter(mInterruptionAdapter);
+            mInterruptionRecyclerView.setAdapter(mInterruptionAdapter);
         } else {
             mInterruptionAdapter.notifyDataSetChanged();
         }

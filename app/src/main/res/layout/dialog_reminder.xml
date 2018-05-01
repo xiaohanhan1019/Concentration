@@ -17,9 +17,9 @@
         android:layout_height="wrap_content"
         android:layout_above="@id/reminder_bottom_linear_layout"
         android:layout_alignParentStart="true"
-        android:background="@drawable/ic_action_left"
-        android:layout_marginBottom="8dp"
-        android:padding="8dp" />
+        android:src="@drawable/ic_action_left"
+        android:background="?android:attr/selectableItemBackground"
+        android:layout_margin="8dp" />
 
     <ImageButton
         android:id="@+id/reminder_arrow_right"
@@ -27,9 +27,9 @@
         android:layout_height="wrap_content"
         android:layout_above="@id/reminder_bottom_linear_layout"
         android:layout_alignParentEnd="true"
-        android:background="@drawable/ic_action_right"
-        android:layout_marginBottom="8dp"
-        android:padding="8dp" />
+        android:src="@drawable/ic_action_right"
+        android:background="?android:attr/selectableItemBackground"
+        android:layout_margin="8dp" />
 
     <LinearLayout
         android:id="@+id/reminder_bottom_linear_layout"

@@ -120,7 +120,7 @@ public class ConcentrationFragment extends Fragment{
                 mCurrentTime += 1;
                 publishProgress(mCurrentTime);
                 try {
-                    Thread.sleep(200);
+                    Thread.sleep(100);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -146,6 +146,8 @@ public class ConcentrationFragment extends Fragment{
                 Task task = concentrationFragment.mTask;
                 concentrationFragment.mTask.setTimes(task.getTimes()+1);
                 concentrationFragment.mTask.setWorkedTime(task.getWorkedTime()+mCurrentTime/60.0);
+                if(task.getWorkedTime() > task.getExpectedWorkingTime())
+                    task.setFinish(true);
             }
 
             if(!mIsInterrupted) {

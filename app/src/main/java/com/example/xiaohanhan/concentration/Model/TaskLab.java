@@ -47,4 +47,12 @@ public class TaskLab {
     public int getTaskGroupIdByPostion(int position){
         return mTaskGroups.get(position).getId();
     }
+
+    public void deleteGroupById(int id){
+        for(int i=0;i<mTaskGroups.size();i++){
+            if(mTaskGroups.get(i).getId()==id){
+                mTaskGroups.remove(i);
+            }
+        }
+    }
 }
