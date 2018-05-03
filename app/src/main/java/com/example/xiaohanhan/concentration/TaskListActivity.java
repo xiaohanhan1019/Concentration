@@ -27,7 +27,11 @@ import com.example.xiaohanhan.concentration.Model.Task;
 import com.example.xiaohanhan.concentration.Model.TaskGroup;
 import com.example.xiaohanhan.concentration.Model.TaskLab;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class TaskListActivity extends AppCompatActivity {
 
@@ -45,6 +49,10 @@ public class TaskListActivity extends AppCompatActivity {
 
     private EditText mAddTask;
 
+    private TextView mDateday;
+    private TextView mDateMonth;
+    private TextView mDateWeek;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,8 +63,16 @@ public class TaskListActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         setTitle("");
 
+        Date now = new Date();
+        mDateday = findViewById(R.id.date_day);
+        mDateday.setText(new SimpleDateFormat("dd", Locale.getDefault()).format(now));
+        mDateMonth = findViewById(R.id.date_month);
+        mDateMonth.setText(new SimpleDateFormat("MMMM", Locale.getDefault()).format(now));
+        mDateWeek = findViewById(R.id.date_week);
+        mDateWeek.setText(new SimpleDateFormat("E", Locale.getDefault()).format(now));
+
         mViewPager = findViewById(R.id.task_list_view_pager);
-        mTaskGroups = TaskLab.get(this).getTaskGroups();
+        mTaskGroups = TaskLab.get().getTaskGroups();
         FragmentManager fm = getSupportFragmentManager();
         mMyViewpagerAdapter = new MyViewpagerAdapter(fm);
         mViewPager.setAdapter(mMyViewpagerAdapter);
@@ -84,13 +100,15 @@ public class TaskListActivity extends AppCompatActivity {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if(actionId == EditorInfo.IME_ACTION_DONE && !v.getText().toString().equals("")){
                     int currentIdx = mViewPager.getCurrentItem();
-                    int groupId = TaskLab.get(TaskListActivity.this).getTaskGroupIdByPostion(currentIdx);
-                    Task task = new Task(groupId);
-                    task.setTaskName(v.getText().toString());
+                    int groupId = TaskLab.get().getTaskGroupIdByPostion(currentIdx);
+                    Task task = new Task(groupId,v.getText().toString());
+                    TaskLab.get().dbAddTask(task);
+                    TaskLab.get().getTaskGroups(groupId).addTask(task);
                     v.setText("");
-                    TaskLab.get(TaskListActivity.this).getTaskGroups(groupId).addTask(task);
-                    Intent intent = TaskActivity.newIntent(TaskListActivity.this, groupId,task.getId());
-                    startActivity(intent);
+//                    the size of the group doesn't increase
+//                    FragmentManager fm = getSupportFragmentManager();
+//                    TaskListFragment taskListFragment = (TaskListFragment)fm.findFragmentById(R.id.task_list_view_pager);
+//                    taskListFragment.updateUI();
                 }
                 return false;
             }

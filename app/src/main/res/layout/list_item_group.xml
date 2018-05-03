@@ -1,17 +1,17 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?android:attr/selectableItemBackground">
+    android:background="?android:attr/selectableItemBackground"
+    android:orientation="horizontal">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingTop="8dp"
         android:layout_marginStart="8dp"
+        android:background="@drawable/item_interruption_underline"
+        android:orientation="horizontal"
         android:paddingBottom="8dp"
-        android:background="@drawable/item_interruption_underline">
+        android:paddingTop="8dp">
 
         <TextView
             android:id="@+id/group_name"
@@ -19,5 +19,12 @@
             android:layout_height="wrap_content" />
 
     </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/task_group_rename"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?android:attr/selectableItemBackground"
+        android:src="@drawable/ic_action_rename_group" />
 
 </LinearLayout>

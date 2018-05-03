@@ -29,6 +29,7 @@ import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.xiaohanhan.concentration.Dialog.DatePickerFragment;
 import com.example.xiaohanhan.concentration.Dialog.ExpectedTimeFragment;
@@ -78,6 +79,7 @@ public class TaskFragment extends Fragment {
     private TextView mTaskDurationAndTimes;
     private TextView mGroupName;
     private Button mDeleteTask;
+    private Button mFinishTask;
 
     private RelativeLayout mTaskDeadlineLayout;
     private RelativeLayout mTaskReminderLayout;
@@ -97,7 +99,7 @@ public class TaskFragment extends Fragment {
         super.onCreate(savedInstanceState);
         int taskId = getArguments().getInt(ARG_TASK_ID);
         int taskGroupId = getArguments().getInt(ARG_TASK_GROUP_ID);
-        mTaskGroup = TaskLab.get(getActivity()).getTaskGroups(taskGroupId);
+        mTaskGroup = TaskLab.get().getTaskGroups(taskGroupId);
         mTask = mTaskGroup.getTask(taskId);
     }
 
@@ -138,7 +140,7 @@ public class TaskFragment extends Fragment {
         });
 
         mTaskDurationAndTimes = v.findViewById(R.id.detail_task_duration_and_times);
-        mTaskDurationAndTimes.setText(getResources().getString(R.string.detail_duration_and_times,mTask.getWorkedTime(),mTask.getTimes()));
+        mTaskDurationAndTimes.setText(getResources().getString(R.string.detail_duration_and_times,mTask.getWorkedTime()/60.0,mTask.getWorkingTimes()));
 
         mTaskDeadline = v.findViewById(R.id.detail_task_deadline);
         if (mTask.getDeadline() != null) {
@@ -213,7 +215,7 @@ public class TaskFragment extends Fragment {
 
         mTaskExpectedWorkingTime = v.findViewById(R.id.detail_task_expected);
         if(mTask.getExpectedWorkingTime() !=0 ) {
-            mTaskExpectedWorkingTime.setText(String.format(Locale.getDefault(), "%.1f/%d", mTask.getWorkedTime(), mTask.getExpectedWorkingTime()));
+            mTaskExpectedWorkingTime.setText(String.format(Locale.getDefault(), "%.1f/%d", mTask.getWorkedTime()/60.0, mTask.getExpectedWorkingTime()));
         } else {
             mTaskExpectedWorkingTime.setText("");
         }
@@ -256,11 +258,10 @@ public class TaskFragment extends Fragment {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if(actionId == EditorInfo.IME_ACTION_DONE && !v.getText().toString().equals("")){
-                    SubTask subTask = new SubTask(mTask.getId());
-                    subTask.setSubTaskName(v.getText().toString());
-                    v.setText("");
+                    SubTask subTask = new SubTask(mTask.getId(),v.getText().toString());
+                    TaskLab.get().dbAddSubtask(subTask);
                     mTask.addSubtask(subTask);
-                    updateUI();
+                    v.setText("");
                 }
                 return false;
             }
@@ -270,8 +271,23 @@ public class TaskFragment extends Fragment {
         mDeleteTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mTaskGroup.deleteTask(mTask.getId());
+                TaskLab.get().dbDeleteTask(mTask.getId());
+                TaskLab.get().getTaskGroups(mTaskGroup.getId()).deleteTask(mTask.getId());
                 getActivity().finish();
+            }
+        });
+
+        mFinishTask = v.findViewById(R.id.detail_finish_task);
+        mFinishTask.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mTask.setFinish(!mTask.isFinish());
+                TaskLab.get().dbUpdateTask(mTask);
+                if(mTask.isFinish()){
+                    Toast.makeText(getActivity(),"Finish!",Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getActivity(),"Not Finish",Toast.LENGTH_LONG).show();
+                }
             }
         });
 
@@ -299,17 +315,17 @@ public class TaskFragment extends Fragment {
         if (requestCode == REQUEST_DEADLINE) {
             try {
                 Date date = (Date) data.getSerializableExtra(DatePickerFragment.EXTRA_DEADLINE);
-                mTask.setDeadLine(new Timestamp(date.getTime()));
+                mTask.setDeadline(new Timestamp(date.getTime()));
                 mTaskDeadline.setText(new SimpleDateFormat("MM/dd E", Locale.getDefault()).format(mTask.getDeadline()));
             } catch (Exception ex) {
-                mTask.setDeadLine(null);
+                mTask.setDeadline(null);
                 mTaskDeadline.setText("");
             }
         } else if (requestCode == REQUEST_EXPECTED_WORKING_TIME) {
             int expectedWorkingTime = (int) data.getSerializableExtra(ExpectedTimeFragment.EXTRA_EXPECTED_WORKING_TIME);
             mTask.setExpectedWorkingTime(expectedWorkingTime);
             if(expectedWorkingTime != 0) {
-                mTaskExpectedWorkingTime.setText(String.format(Locale.getDefault(), "%.1f/%d", mTask.getWorkedTime(), mTask.getExpectedWorkingTime()));
+                mTaskExpectedWorkingTime.setText(String.format(Locale.getDefault(), "%.1f/%d", mTask.getWorkedTime()/60.0, mTask.getExpectedWorkingTime()));
             } else {
                 mTaskExpectedWorkingTime.setText("");
             }
@@ -385,7 +401,8 @@ public class TaskFragment extends Fragment {
     private class SubTaskHolder extends RecyclerView.ViewHolder{
 
         private CheckBox mIsFinish;
-        private EditText mSubTaskName;
+        private TextView mSubTaskName;
+        private ImageButton mDeleteSubTask;
 
         private SubTask mSubTask;
 
@@ -397,9 +414,19 @@ public class TaskFragment extends Fragment {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     mSubTask.setFinish(isChecked);
+                    TaskLab.get().dbUpdateSubtask(mSubTask);
                 }
             });
             mSubTaskName = itemView.findViewById(R.id.subTask_name);
+            mDeleteSubTask = itemView.findViewById(R.id.subTask_delete);
+            mDeleteSubTask.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    TaskLab.get().dbDeleteSubtask(mSubTask.getId());
+                    mTask.deleteSubtask(mSubTask.getId());
+                    updateUI();
+                }
+            });
         }
 
         public void bind(SubTask subTask){
@@ -433,6 +460,12 @@ public class TaskFragment extends Fragment {
         public int getItemCount() {
             return mSubtasks.size();
         }
+    }
+
+    @Override
+    public void onPause() {
+        TaskLab.get().dbUpdateTask(mTask);
+        super.onPause();
     }
 
     private void updateUI(){

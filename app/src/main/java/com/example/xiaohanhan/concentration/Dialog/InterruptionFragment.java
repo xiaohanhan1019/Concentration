@@ -46,7 +46,7 @@ public class InterruptionFragment extends DialogFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mInterruptions = InterruptionLab.get(getActivity()).getInterruptions();
+        mInterruptions = InterruptionLab.get().getInterruptions();
 
         this.setCancelable(false);
     }
@@ -69,6 +69,7 @@ public class InterruptionFragment extends DialogFragment {
                     interruption.setInterruptionName(v.getText().toString());
                     v.setText("");
                     mInterruptions.add(interruption);
+                    InterruptionLab.get().dbInsertInterruption(interruption);
                 }
                 return false;
             }
@@ -134,6 +135,7 @@ public class InterruptionFragment extends DialogFragment {
         @Override
         public void onClick(View v) {
             mInterruption.setTimes(mInterruption.getTimes()+1);
+            InterruptionLab.get().dbUpdateInterruption(mInterruption);
             dismiss();
             Toast.makeText(getActivity(),"Reason: "+mInterruption.getInterruptionName(),Toast.LENGTH_SHORT).show();
         }

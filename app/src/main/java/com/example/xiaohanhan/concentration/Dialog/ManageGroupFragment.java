@@ -24,6 +24,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.xiaohanhan.concentration.Model.Interruption;
+import com.example.xiaohanhan.concentration.Model.Task;
 import com.example.xiaohanhan.concentration.Model.TaskGroup;
 import com.example.xiaohanhan.concentration.Model.TaskLab;
 import com.example.xiaohanhan.concentration.R;
@@ -55,7 +56,7 @@ public class ManageGroupFragment extends DialogFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mTaskGroups = TaskLab.get(getActivity()).getTaskGroups();
+        mTaskGroups = TaskLab.get().getTaskGroups();
     }
 
     @Nullable
@@ -72,12 +73,12 @@ public class ManageGroupFragment extends DialogFragment {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if(actionId == EditorInfo.IME_ACTION_DONE){
-                    TaskGroup taskGroup = new TaskGroup();
-                    taskGroup.setName(v.getText().toString());
-                    v.setText("");
-                    mTaskGroups.add(taskGroup);
+                    TaskGroup taskGroup = new TaskGroup(v.getText().toString());
+                    TaskLab.get().dbAddTaskGroup(taskGroup);
+                    TaskLab.get().addTaskGroup(taskGroup);
                     TaskListActivity taskListActivity = (TaskListActivity)getActivity();
                     taskListActivity.notifyChange();
+                    v.setText("");
                 }
                 return false;
             }
@@ -121,6 +122,7 @@ public class ManageGroupFragment extends DialogFragment {
     private class GroupHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         private TextView mGroupName;
+        private ImageButton mRenameGroup;
 
         private TaskGroup mTaskGroup;
 
@@ -130,6 +132,13 @@ public class ManageGroupFragment extends DialogFragment {
             itemView.setOnClickListener(this);
 
             mGroupName = itemView.findViewById(R.id.group_name);
+            mRenameGroup = itemView.findViewById(R.id.task_group_rename);
+            mRenameGroup.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
         }
 
         public void bind(TaskGroup taskGroup){

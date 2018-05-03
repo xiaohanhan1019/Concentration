@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
@@ -76,7 +77,7 @@ public class TaskListFragment extends Fragment{
         super.onCreate(savedInstanceState);
 
         int taskGroupId = (int)getArguments().getSerializable(ARG_TASK_GROUP_ID);
-        mTaskGroup = TaskLab.get(getActivity()).getTaskGroups(taskGroupId);
+        mTaskGroup = TaskLab.get().getTaskGroups(taskGroupId);
 
         mTaskListActivity = (TaskListActivity)getActivity();
     }
@@ -130,12 +131,12 @@ public class TaskListFragment extends Fragment{
                                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        TaskLab.get(getActivity()).deleteGroupById(mTaskGroup.getId());
+                                        TaskLab.get().dbDeleteTaskGroup(mTaskGroup.getId());
+                                        TaskLab.get().deleteTaskGroup(mTaskGroup.getId());
                                         mTaskListActivity.notifyChange();
                                     }
                                 })
                                 .setNegativeButton("Cancel",null).show();
-
                         popupWindow.dismiss();
                     }
                 });
@@ -182,7 +183,6 @@ public class TaskListFragment extends Fragment{
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);
 
-            //绑定控件
             mTaskPriority = itemView.findViewById(R.id.task_priority);
             mTaskName = itemView.findViewById(R.id.task_name);
             mTaskStatus = itemView.findViewById(R.id.task_status);
@@ -203,12 +203,15 @@ public class TaskListFragment extends Fragment{
             mTask = task;
             switch(mTask.getPriority()){
                 case 1:
+                    mTaskPriority.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
                     mTaskPriority.setText("!");
                     break;
                 case 2:
+                    mTaskPriority.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorPink));
                     mTaskPriority.setText("!!");
                     break;
                 case 3:
+                    mTaskPriority.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorOrangeRed));
                     mTaskPriority.setText("!!!");
                     break;
                 default:
@@ -225,7 +228,7 @@ public class TaskListFragment extends Fragment{
             }
 
             if(mTask.getExpectedWorkingTime()!=0) {
-                mTaskStatus.setText(String.format(Locale.getDefault(), "(%.1f/%d)", mTask.getWorkedTime(), mTask.getExpectedWorkingTime()));
+                mTaskStatus.setText(String.format(Locale.getDefault(), "(%.1f/%d)", mTask.getWorkedTime()/60.0, mTask.getExpectedWorkingTime()));
                 mTaskStatus.setVisibility(View.VISIBLE);
             } else {
                 mTaskStatus.setText("");
@@ -289,7 +292,7 @@ public class TaskListFragment extends Fragment{
         }
     }
 
-    private void updateUI(){
+    public void updateUI(){
         if(mTaskAdapter==null) {
             mTaskAdapter = new TaskAdapter(mTaskGroup.getTasks());
             mTaskRecyclerView.setAdapter(mTaskAdapter);

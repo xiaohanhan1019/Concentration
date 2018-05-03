@@ -12,13 +12,17 @@ public class Interruption {
     private int mId;
     private String mInterruptionName;
     private int mTimes;
-    private Timestamp mInterruptionTime;
+
+    public static final String KEY_id = "id";
+    public static final String KEY_interruption_name = "interruption_name";
+    public static final String KEY_times = "times";
 
     public Interruption() {
-        mId = (int)(Math.random() * 10000);
-        mTimes = 0;
-        mInterruptionName = Integer.toString(mId);
-        mInterruptionTime = new Timestamp(new Date().getTime());
+
+    }
+
+    public Interruption(String interruptionName){
+        mInterruptionName = interruptionName;
     }
 
     public int getId() {
@@ -44,4 +48,5 @@ public class Interruption {
     public void setTimes(int times) {
         mTimes = times;
     }
+
 }

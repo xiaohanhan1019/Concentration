@@ -15,6 +15,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.xiaohanhan.concentration.Model.ConcentrationRecord;
+import com.example.xiaohanhan.concentration.Model.ConcentrationRecordLab;
 import com.example.xiaohanhan.concentration.Model.Task;
 import com.example.xiaohanhan.concentration.Model.TaskLab;
 
@@ -63,7 +65,7 @@ public class ConcentrationFragment extends Fragment{
 
         int taskId = getArguments().getInt(ARG_TASK_ID);
         int taskGroupId = getArguments().getInt(ARG_TASK_GROUP_ID);
-        mTask = TaskLab.get(getActivity()).getTaskGroups(taskGroupId).getTask(taskId);
+        mTask = TaskLab.get().getTaskGroups(taskGroupId).getTask(taskId);
     }
 
     @Nullable
@@ -76,7 +78,7 @@ public class ConcentrationFragment extends Fragment{
 
         mCircleProgressView = v.findViewById(R.id.circle_progress_view);
         mCircleProgressView.setTotalTime(mTime);
-        mConcentrateTask = new ConcentrateTask(this,mCircleProgressView,mTime);
+        mConcentrateTask = new ConcentrateTask(this,mCircleProgressView,mTime,mTask.getId());
         mConcentrateTask.execute();
 
         mHoldDownButton = v.findViewById(R.id.concentrate_hold_down);
@@ -99,14 +101,18 @@ public class ConcentrationFragment extends Fragment{
         private int mCurrentTime = 0;
         private boolean mIsInterrupted;
 
+        private ConcentrationRecord mConcentrationRecord;
+
         public void setInterrupt(boolean interrupt) {
             mIsInterrupted = interrupt;
         }
 
-        public ConcentrateTask(ConcentrationFragment concentrationFragment,CircleProgressView circleProgressView,int totalTime){
+        public ConcentrateTask(ConcentrationFragment concentrationFragment,CircleProgressView circleProgressView,int totalTime,int taskId){
             mConcentrationFragmentWeakReference = new WeakReference<>(concentrationFragment);
             mCircleProgressViewWeakReference = new WeakReference<>(circleProgressView);
             mTotalTime = totalTime;
+
+            mConcentrationRecord = new ConcentrationRecord(taskId);
         }
 
         @Override
@@ -144,10 +150,11 @@ public class ConcentrationFragment extends Fragment{
                 return;
             } else {
                 Task task = concentrationFragment.mTask;
-                concentrationFragment.mTask.setTimes(task.getTimes()+1);
-                concentrationFragment.mTask.setWorkedTime(task.getWorkedTime()+mCurrentTime/60.0);
-                if(task.getWorkedTime() > task.getExpectedWorkingTime())
-                    task.setFinish(true);
+                concentrationFragment.mTask.setWorkingTimes(task.getWorkingTimes()+1);
+                concentrationFragment.mTask.setWorkedTime(task.getWorkedTime()+mCurrentTime);
+
+                mConcentrationRecord.setWorkingtime(mCurrentTime);
+                ConcentrationRecordLab.get().dbInsertRecord(mConcentrationRecord);
             }
 
             if(!mIsInterrupted) {

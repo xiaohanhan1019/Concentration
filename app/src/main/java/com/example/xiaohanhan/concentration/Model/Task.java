@@ -13,7 +13,6 @@ public class Task {
 
     private int mId;
     private int mGroupId;
-    private int mUserId;
     private String mTaskName;
     private Timestamp mStartDate;
     private Timestamp mDeadline;
@@ -21,47 +20,64 @@ public class Task {
     private Timestamp mReminder;
     private int mPriority;
     private int mExpectedWorkingTime;   //in minute
-    private double mWorkedTime;            //in minute
-    private int mTimes;
+    private int mWorkedTime;            //in second
+    private int mWorkingTimes;
     private String mDetail;
     private boolean mIsFinish;
+    private List<SubTask> mSubTasks;
 
     public static final String KEY_id = "id";
     public static final String KEY_task_group_id = "task_group_id";
+    public static final String KEY_task_name = "task_name";
+    public static final String KEY_start_time = "start_time";
+    public static final String KEY_expect_time = "expect_time";
+    public static final String KEY_finish_time = "finish_time";
+    public static final String KEY_reminder = "reminder";
+    public static final String KEY_priority = "priority";
+    public static final String KEY_expected_working_time = "expect_working_time";
+    public static final String KEY_worked_time = "worked_time";
+    public static final String KEY_working_times = "working_times";
+    public static final String KEY_detail = "detail";
+    public static final String KEY_is_finish = "is_finish";
 
+    public Task(){
 
-    private List<SubTask> mSubTasks;
+    }
 
-    public Task(int groupId){
+    public Task(int groupId,String taskName){
         mGroupId = groupId;
-        mId = (int)(Math.random() * 10000);
+        mTaskName = taskName;
         mStartDate = new Timestamp(new Date().getTime());
-        mReminder = null;
-        mDeadline = null;
-        mTaskName = Integer.toString(mId);
-        mPriority = 0;
-        mExpectedWorkingTime = 0;
-        mWorkedTime = 0;
-        mTimes = 0;
-        mDetail = null;
-        mIsFinish = false;
         mSubTasks = new ArrayList<>();
     }
 
-    public void setId(int id) {
-        mId = id;
+    public void addSubtask(SubTask subtask){
+        mSubTasks.add(subtask);
+    }
+
+    public void deleteSubtask(int subtaskId){
+        for(int i=0;i<mSubTasks.size();i++){
+            if(mSubTasks.get(i).getId()==subtaskId) {
+                mSubTasks.remove(i);
+                break;
+            }
+        }
     }
 
     public int getId() {
         return mId;
     }
 
-    public int getUserId() {
-        return mUserId;
+    public void setId(int id) {
+        mId = id;
     }
 
-    public void setUserId(int userId) {
-        mUserId = userId;
+    public int getGroupId() {
+        return mGroupId;
+    }
+
+    public void setGroupId(int groupId) {
+        mGroupId = groupId;
     }
 
     public String getTaskName() {
@@ -84,16 +100,16 @@ public class Task {
         return mDeadline;
     }
 
-    public void setDeadLine(Timestamp Deadline) {
-        mDeadline = Deadline;
+    public void setDeadline(Timestamp deadline) {
+        mDeadline = deadline;
     }
 
-    public Timestamp getFinishTime() {
+    public Timestamp getFinishDate() {
         return mFinishDate;
     }
 
-    public void setFinishTime(Timestamp finishTime) {
-        mFinishDate = finishTime;
+    public void setFinishDate(Timestamp finishDate) {
+        mFinishDate = finishDate;
     }
 
     public Timestamp getReminder() {
@@ -120,20 +136,12 @@ public class Task {
         mExpectedWorkingTime = expectedWorkingTime;
     }
 
-    public double getWorkedTime() {
+    public int getWorkedTime() {
         return mWorkedTime;
     }
 
-    public void setWorkedTime(double workedTime) {
+    public void setWorkedTime(int workedTime) {
         mWorkedTime = workedTime;
-    }
-
-    public int getTimes() {
-        return mTimes;
-    }
-
-    public void setTimes(int times) {
-        mTimes = times;
     }
 
     public String getDetail() {
@@ -160,12 +168,11 @@ public class Task {
         mSubTasks = subTasks;
     }
 
-    public void addSubtask(SubTask subTask){
-        mSubTasks.add(subTask);
+    public int getWorkingTimes() {
+        return mWorkingTimes;
     }
 
-    public int getGroupId() {
-        return mGroupId;
+    public void setWorkingTimes(int workingTimes) {
+        mWorkingTimes = workingTimes;
     }
-
 }
