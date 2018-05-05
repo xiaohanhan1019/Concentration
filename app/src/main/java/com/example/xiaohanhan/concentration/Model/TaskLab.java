@@ -31,6 +31,10 @@ public class TaskLab {
 
     private TaskLab (){
         mTaskGroups = new ArrayList<>();
+        getData();
+    }
+
+    public void getData(){
         SelectAllTaskGroup selectAllTaskGroup = new SelectAllTaskGroup();
         try {
             mTaskGroups = selectAllTaskGroup.execute().get();

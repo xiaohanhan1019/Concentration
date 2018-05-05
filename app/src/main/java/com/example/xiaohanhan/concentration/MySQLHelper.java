@@ -24,7 +24,7 @@ import java.util.List;
 public class MySQLHelper {
 
     private static final String driver = "com.mysql.jdbc.Driver";
-    private static final String url = "jdbc:mysql://106.2.23.8/songzihan";
+    private static final String url = "jdbc:mysql://106.2.23.8/songzihan?connectTimeout=2000";
     private static final String user = "mysql";
     private static final String password = "mysql";
 

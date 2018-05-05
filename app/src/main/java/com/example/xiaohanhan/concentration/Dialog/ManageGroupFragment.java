@@ -29,6 +29,7 @@ import com.example.xiaohanhan.concentration.Model.TaskGroup;
 import com.example.xiaohanhan.concentration.Model.TaskLab;
 import com.example.xiaohanhan.concentration.R;
 import com.example.xiaohanhan.concentration.TaskListActivity;
+import com.matrixxun.starry.badgetextview.MaterialBadgeTextView;
 
 import java.security.AccessControlContext;
 import java.security.acl.Group;
@@ -125,6 +126,7 @@ public class ManageGroupFragment extends DialogFragment {
         private ImageButton mRenameGroup;
 
         private TaskGroup mTaskGroup;
+        private MaterialBadgeTextView mGroupCount;
 
         public GroupHolder(LayoutInflater inflater,ViewGroup parent){
             super(inflater.inflate(R.layout.list_item_group,parent,false));
@@ -132,6 +134,7 @@ public class ManageGroupFragment extends DialogFragment {
             itemView.setOnClickListener(this);
 
             mGroupName = itemView.findViewById(R.id.group_name);
+            mGroupCount = itemView.findViewById(R.id.group_count);
             mRenameGroup = itemView.findViewById(R.id.task_group_rename);
             mRenameGroup.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -144,6 +147,7 @@ public class ManageGroupFragment extends DialogFragment {
         public void bind(TaskGroup taskGroup){
             mTaskGroup = taskGroup;
             mGroupName.setText(taskGroup.getName());
+            mGroupCount.setBadgeCount(mTaskGroup.getTasks().size());
         }
 
         @Override

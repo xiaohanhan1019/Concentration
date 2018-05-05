@@ -1,6 +1,5 @@
 package com.example.xiaohanhan.concentration;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -14,14 +13,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -95,6 +91,10 @@ public class TaskListFragment extends Fragment{
 
         mTaskRecyclerView = v.findViewById(R.id.task_recycler_view);
         mTaskRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        DefaultItemAnimator animator = new DefaultItemAnimator();
+        animator.setAddDuration(2000);
+        animator.setRemoveDuration(2000);
+        mTaskRecyclerView.setItemAnimator(animator);
 
         mTaskGroupName = v.findViewById(R.id.task_group_name);
         mTaskGroupName.setText(mTaskGroup.getName());
@@ -199,6 +199,7 @@ public class TaskListFragment extends Fragment{
                 public void onClick(View v) {
                     Intent intent = ConcentrationActivity.newIntent(getActivity(), mTaskGroup.getId(),mTask.getId());
                     startActivityForResult(intent,REQUEST_CONCENTRATION);
+                    getActivity().overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
                 }
             });
         }
@@ -252,9 +253,9 @@ public class TaskListFragment extends Fragment{
 
         @Override
         public void onClick(View v) {
-            //先跳转到activity 通过activity跳转到fragment 可能有更好的办法
             Intent intent = TaskActivity.newIntent(getActivity(), mTaskGroup.getId(),mTask.getId());
             startActivity(intent);
+            getActivity().overridePendingTransition(R.anim.goright_left_to_right,R.anim.goright_right_to_left);
         }
 
         @Override

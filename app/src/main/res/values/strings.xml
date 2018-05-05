@@ -22,4 +22,13 @@
     <string name="sort_by_priority">sort by priority</string>
     <string name="sort_by_worked_time">sort by worked time</string>
     <string name="sort_by_deadline">sort by deadline</string>
+
+    <!-- Settings -->
+    <string name="title_activity_settings">Settings</string>
+    <string name="settings_working_time">Minutes</string>
+    <string name="concentration_section">Concentration</string>
+
+    <!-- fuck up -->
+    <string name="fuck_up_try_again">Click to try again</string>
+    <string name="network_error">Network Error</string>
 </resources>

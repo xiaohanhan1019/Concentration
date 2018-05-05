@@ -6,6 +6,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.KeyEvent;
+import android.widget.Toast;
 
 public class ConcentrationActivity extends AppCompatActivity {
 
@@ -34,5 +36,13 @@ public class ConcentrationActivity extends AppCompatActivity {
         intent.putExtra(EXTRA_TASK_ID,taskId);
         intent.putExtra(EXTRA_TASK_GROUP_ID,taskGroupId);
         return intent;
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            Toast.makeText(this, "Please Concentrate!", Toast.LENGTH_SHORT).show();
+        }
+        return false;
     }
 }

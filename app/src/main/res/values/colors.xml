@@ -18,4 +18,5 @@
     <color name="colorOrangeRed">#FA6469</color>
     <color name="colorDefaultBackground">#FFFFFF</color>
     <color name="colorPink">#FF6EB4</color>
+    <color name="colorLightGrey">#FAFAFA</color>
 </resources>

@@ -56,7 +56,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="16dp">
+        android:layout_marginBottom="36dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -79,9 +79,9 @@
         </RelativeLayout>
 
         <TextView
+            android:id="@+id/concentrate_slogan"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Hang on to your dreams!"
             android:gravity="center"
             android:padding="8dp"/>
 

@@ -112,6 +112,7 @@ public class TaskFragment extends Fragment {
                 //返回上层 manifest singletop
                 if (NavUtils.getParentActivityName(getActivity()) != null) {
                     NavUtils.navigateUpFromSameTask(getActivity());
+                    getActivity().overridePendingTransition(R.anim.goback_left_to_right,R.anim.goback_right_to_left);
                 }
             }
         });
@@ -272,6 +273,7 @@ public class TaskFragment extends Fragment {
             public void onClick(View v) {
                 TaskLab.get().dbDeleteTask(mTask.getId());
                 TaskLab.get().getTaskGroups(mTaskGroup.getId()).deleteTask(mTask.getId());
+                Toast.makeText(getActivity(),"Delete!",Toast.LENGTH_LONG).show();
                 getActivity().finish();
             }
         });

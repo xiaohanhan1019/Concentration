@@ -23,9 +23,12 @@ import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.xiaohanhan.concentration.Model.Task;
 import com.example.xiaohanhan.concentration.Model.TaskGroup;
@@ -36,6 +39,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+
+import static android.view.View.VISIBLE;
 
 public class TaskListActivity extends AppCompatActivity {
 
@@ -52,6 +57,9 @@ public class TaskListActivity extends AppCompatActivity {
     private int mCurrentPage;
 
     private EditText mAddTask;
+    private Toolbar mToolbar;
+    private FrameLayout mFuckUpLayout;
+    private LinearLayout mAddTaskLayout;
 
     private TextView mDateday;
     private TextView mDateMonth;
@@ -63,9 +71,9 @@ public class TaskListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_task_list);
 
         //replace actionbar
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        setTitle("");
+        mToolbar = findViewById(R.id.toolbar);
+//        setSupportActionBar(mToolbar);
+//        setTitle("");
 
         Date now = new Date();
         mDateday = findViewById(R.id.date_day);
@@ -74,17 +82,6 @@ public class TaskListActivity extends AppCompatActivity {
         mDateMonth.setText(new SimpleDateFormat("MMMM", Locale.getDefault()).format(now));
         mDateWeek = findViewById(R.id.date_week);
         mDateWeek.setText(new SimpleDateFormat("E", Locale.getDefault()).format(now));
-
-        mViewPager = findViewById(R.id.task_list_view_pager);
-        mTaskGroups = TaskLab.get().getTaskGroups();
-        if(mTaskGroups==null){
-            //TODO
-            Log.i("debug","fuck up");
-        }
-        FragmentManager fm = getSupportFragmentManager();
-        mMyViewpagerAdapter = new MyViewpagerAdapter(fm);
-        mViewPager.setAdapter(mMyViewpagerAdapter);
-        mViewPager.setCurrentItem(mCurrentPage);
 
 //        mShowChart = findViewById(R.id.show_chart);
 //        mShowChart.setOnClickListener(new View.OnClickListener() {
@@ -98,7 +95,8 @@ public class TaskListActivity extends AppCompatActivity {
         mSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO 切换activity
+                Intent intent = SettingsActivity.newIntent(TaskListActivity.this);
+                startActivity(intent);
             }
         });
 
@@ -192,6 +190,20 @@ public class TaskListActivity extends AppCompatActivity {
                 sortByDeadline.setOnClickListener(sort);
             }
         });
+
+        mViewPager = findViewById(R.id.task_list_view_pager);
+        mFuckUpLayout = findViewById(R.id.fuck_up_layout);
+        mFuckUpLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(TaskListActivity.this, "Loading...", Toast.LENGTH_LONG).show();
+                updateUI();
+            }
+        });
+        mAddTaskLayout = findViewById(R.id.add_task_layout);
+
+        updateUI();
+
     }
 
     @Override
@@ -241,6 +253,26 @@ public class TaskListActivity extends AppCompatActivity {
             return POSITION_NONE;
         }
 
+    }
+
+    void updateUI(){
+        TaskLab.get().getData();
+        mTaskGroups = TaskLab.get().getTaskGroups();
+        if(mTaskGroups==null){
+            //TODO
+            Log.i("debug","fuck up");
+            mFuckUpLayout.setVisibility(View.VISIBLE);
+            mToolbar.setVisibility(View.GONE);
+            mAddTaskLayout.setVisibility(View.GONE);
+        } else {
+            mAddTaskLayout.setVisibility(View.VISIBLE);
+            mToolbar.setVisibility(View.VISIBLE);
+            mFuckUpLayout.setVisibility(View.GONE);
+            FragmentManager fm = getSupportFragmentManager();
+            mMyViewpagerAdapter = new MyViewpagerAdapter(fm);
+            mViewPager.setAdapter(mMyViewpagerAdapter);
+            mViewPager.setCurrentItem(mCurrentPage);
+        }
     }
 
     //    @Override

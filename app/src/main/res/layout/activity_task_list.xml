@@ -9,6 +9,47 @@
     android:focusable="true"
     android:focusableInTouchMode="true">
 
+    <FrameLayout
+        android:id="@+id/fuck_up_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:focusable="true"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/fuck_up_try_again"
+                android:tint="@color/colorOrangeRed"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/network_error"
+                android:textSize="20sp"
+                android:textColor="@color/colorOrangeRed"
+                android:gravity="center"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/fuck_up_try_again"
+                android:textSize="20sp"
+                android:textColor="@color/colorOrangeRed"
+                android:gravity="center"/>
+
+        </LinearLayout>
+
+    </FrameLayout>
+
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -122,6 +163,7 @@
             android:background="@null"
             android:hint="@string/add_task"
             android:textColorHint="@color/colorWhite"
+            android:textColor="@color/colorWhite"
             android:singleLine="true"
             android:textSize="16sp"
             android:padding="8dp"

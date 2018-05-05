@@ -4,23 +4,35 @@
     android:background="?android:attr/selectableItemBackground"
     android:orientation="horizontal">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:background="@drawable/item_interruption_underline"
-        android:orientation="horizontal"
-        android:paddingBottom="8dp"
-        android:paddingTop="8dp">
+        android:paddingBottom="4dp"
+        android:paddingTop="4dp">
 
         <TextView
             android:id="@+id/group_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:layout_centerVertical="true" />
+
+        <com.matrixxun.starry.badgetextview.MaterialBadgeTextView
+            android:id="@+id/group_count"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:background="@color/colorOrangeRed"
+            android:textColor="@android:color/white"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="16dp"
+            android:textSize="10sp"
+            android:layout_marginStart="8dp"/>
 
-
-
-    </LinearLayout>
+    </RelativeLayout>
 
     <ImageButton
         android:id="@+id/task_group_rename"

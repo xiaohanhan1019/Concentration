@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.example.xiaohanhan.concentration.Model.ConcentrationRecord;
 import com.example.xiaohanhan.concentration.Model.ConcentrationRecordLab;
+import com.example.xiaohanhan.concentration.Model.SloganLab;
 import com.example.xiaohanhan.concentration.Model.Task;
 import com.example.xiaohanhan.concentration.Model.TaskLab;
 
@@ -38,6 +39,7 @@ public class ConcentrationFragment extends Fragment{
     private CircleProgressView mCircleProgressView;
     private TextView mTaskName;
     private Button mHoldDownButton;
+    private TextView mSlogan;
 
     private Task mTask;
 
@@ -61,7 +63,7 @@ public class ConcentrationFragment extends Fragment{
         super.onCreate(savedInstanceState);
 
         SharedPreferences userSettings = getActivity().getSharedPreferences("Concentration_setting", Context.MODE_PRIVATE);
-        mTime = userSettings.getInt(MyApplication.PREFERENCE_SETTINGS_WORKING_TIME,50);
+        mTime = userSettings.getInt(MyApplication.PREFERENCE_SETTINGS_WORKING_TIME,1800);
 
         int taskId = getArguments().getInt(ARG_TASK_ID);
         int taskGroupId = getArguments().getInt(ARG_TASK_GROUP_ID);
@@ -89,6 +91,9 @@ public class ConcentrationFragment extends Fragment{
                 return false;
             }
         });
+
+        mSlogan = v.findViewById(R.id.concentrate_slogan);
+        mSlogan.setText(SloganLab.get().getRadomSlogan());
 
         return v;
     }
@@ -174,6 +179,7 @@ public class ConcentrationFragment extends Fragment{
 
         getActivity().setResult(resultCode,intent);
         getActivity().finish();
+        getActivity().overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
     }
 
     //TODO saveBundle
