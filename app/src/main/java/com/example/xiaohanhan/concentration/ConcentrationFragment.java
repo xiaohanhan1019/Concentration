@@ -154,6 +154,7 @@ public class ConcentrationFragment extends Fragment{
                 concentrationFragment.mTask.setWorkedTime(task.getWorkedTime()+mCurrentTime);
 
                 mConcentrationRecord.setWorkingtime(mCurrentTime);
+                mConcentrationRecord.setInterrupted(mIsInterrupted);
                 ConcentrationRecordLab.get().dbInsertRecord(mConcentrationRecord);
             }
 

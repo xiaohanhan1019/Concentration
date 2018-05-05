@@ -2,6 +2,7 @@ package com.example.xiaohanhan.concentration.Model;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -39,6 +40,12 @@ public class Task {
     public static final String KEY_working_times = "working_times";
     public static final String KEY_detail = "detail";
     public static final String KEY_is_finish = "is_finish";
+
+    public static final String SORT_by_worked_time = "sort_by_worked_time";
+    public static final String SORT_by_priority = "sort_by_priority";
+    public static final String SORT_by_name = "sort_by_name";
+    public static final String SORT_by_deadline = "sort_by_deadline";
+
 
     public Task(){
 
@@ -174,5 +181,74 @@ public class Task {
 
     public void setWorkingTimes(int workingTimes) {
         mWorkingTimes = workingTimes;
+    }
+
+    public static class ComparatorByName implements Comparator<Task>{
+
+        @Override
+        public int compare(Task o1, Task o2) {
+            if(o1.isFinish() || o2.isFinish() && !(o1.isFinish() && o2.isFinish()))
+                return o1.isFinish()?1:-1;
+            if(o1.getTaskName().equals(o2.getTaskName()))
+                return o1.getStartDate().compareTo(o2.getStartDate());
+            else
+                return o1.getTaskName().compareTo(o2.getTaskName());
+        }
+    }
+
+    public static class ComparatorByWorkedTime implements Comparator<Task>{
+
+        @Override
+        public int compare(Task o1, Task o2) {
+            if(o1.isFinish() || o2.isFinish() && !(o1.isFinish() && o2.isFinish()))
+                return o1.isFinish()?1:-1;
+            if(o1.getWorkedTime()==o2.getWorkedTime())
+                return o1.getStartDate().compareTo(o2.getStartDate());
+            else
+                return o2.getWorkedTime()-o1.getWorkedTime();
+        }
+    }
+
+    public static class ComparatorByDeadline implements Comparator<Task>{
+
+        @Override
+        public int compare(Task o1, Task o2) {
+            if(o1.isFinish() || o2.isFinish() && !(o1.isFinish() && o2.isFinish()))
+                return o1.isFinish()?1:-1;
+            if(o1.getDeadline()!=null && o2.getDeadline()!=null) {
+                if (o1.getDeadline().equals(o2.getDeadline()))
+                    return o1.getStartDate().compareTo(o2.getStartDate());
+                else
+                    return o2.getDeadline().compareTo(o1.getDeadline());
+            } else {
+                if(o1.getDeadline()!=null)
+                    return -1;
+                else
+                    return 1;
+            }
+        }
+    }
+
+    public static class ComparatorByPriority implements Comparator<Task>{
+
+        @Override
+        public int compare(Task o1, Task o2) {
+            if(o1.isFinish() || o2.isFinish() && !(o1.isFinish() && o2.isFinish()))
+                return o1.isFinish()?1:-1;
+            if(o1.getPriority()==o2.getPriority())
+                return o1.getStartDate().compareTo(o2.getStartDate());
+            else
+                return o2.getPriority()-o1.getPriority();
+        }
+    }
+
+    public static class ComparatorDefault implements Comparator<Task>{
+
+        @Override
+        public int compare(Task o1, Task o2) {
+            if(o1.isFinish() || o2.isFinish() && !(o1.isFinish() && o2.isFinish()))
+                return o1.isFinish()?1:-1;
+            return o1.getStartDate().compareTo(o2.getStartDate());
+        }
     }
 }

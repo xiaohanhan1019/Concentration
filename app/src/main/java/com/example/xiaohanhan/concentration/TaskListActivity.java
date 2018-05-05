@@ -1,6 +1,8 @@
 package com.example.xiaohanhan.concentration;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v4.app.Fragment;
@@ -10,6 +12,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -18,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.PopupWindow;
@@ -73,18 +77,22 @@ public class TaskListActivity extends AppCompatActivity {
 
         mViewPager = findViewById(R.id.task_list_view_pager);
         mTaskGroups = TaskLab.get().getTaskGroups();
+        if(mTaskGroups==null){
+            //TODO
+            Log.i("debug","fuck up");
+        }
         FragmentManager fm = getSupportFragmentManager();
         mMyViewpagerAdapter = new MyViewpagerAdapter(fm);
         mViewPager.setAdapter(mMyViewpagerAdapter);
         mViewPager.setCurrentItem(mCurrentPage);
 
-        mShowChart = findViewById(R.id.show_chart);
-        mShowChart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //TODO 切换activity
-            }
-        });
+//        mShowChart = findViewById(R.id.show_chart);
+//        mShowChart.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                //TODO 切换activity
+//            }
+//        });
 
         mSettings = findViewById(R.id.settings);
         mSettings.setOnClickListener(new View.OnClickListener() {
@@ -105,10 +113,9 @@ public class TaskListActivity extends AppCompatActivity {
                     TaskLab.get().dbAddTask(task);
                     TaskLab.get().getTaskGroups(groupId).addTask(task);
                     v.setText("");
-//                    the size of the group doesn't increase
-//                    FragmentManager fm = getSupportFragmentManager();
-//                    TaskListFragment taskListFragment = (TaskListFragment)fm.findFragmentById(R.id.task_list_view_pager);
-//                    taskListFragment.updateUI();
+                    //increase the size of group
+                    TaskListFragment taskListFragment = (TaskListFragment)mMyViewpagerAdapter.instantiateItem(mViewPager,currentIdx);
+                    taskListFragment.updateUI();
                 }
                 return false;
             }
@@ -120,12 +127,12 @@ public class TaskListActivity extends AppCompatActivity {
             public void onClick(View v) {
                 View view = LayoutInflater.from(TaskListActivity.this).inflate(R.layout.pop_up_window_sort,null);
                 final PopupWindow popupWindow = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
-                popupWindow.setBackgroundDrawable(new ColorDrawable(Color.DKGRAY));
+                popupWindow.setBackgroundDrawable(new ColorDrawable(0xFFFAFAFA));
                 popupWindow.setTouchable(true);
                 popupWindow.setOutsideTouchable(true);
                 popupWindow.showAtLocation(findViewById(R.id.task_list_main_layout), Gravity.BOTTOM,0,0);
 
-                //背景变暗
+                //set background
                 WindowManager.LayoutParams lp = getWindow().getAttributes();
                 lp.alpha = 0.7f;
                 getWindow().setAttributes(lp);
@@ -139,20 +146,50 @@ public class TaskListActivity extends AppCompatActivity {
                     }
                 });
 
-                //所有排序按钮的onclick事件
-                new View.OnClickListener(){
+                //sort
+                //默认按照 starttime排
+                final View.OnClickListener sort = new View.OnClickListener(){
 
                     @Override
                     public void onClick(View v) {
+                        int currentIdx = mViewPager.getCurrentItem();
+                        String sortKey;
+                        TaskListFragment taskListFragment = (TaskListFragment)mMyViewpagerAdapter.instantiateItem(mViewPager,currentIdx);
                         switch(v.getId()){
                             case R.id.sort_by_name:
+                                taskListFragment.sort(Task.SORT_by_name);
+                                sortKey = Task.SORT_by_name;
+                                break;
+                            case R.id.sort_by_deadline:
+                                taskListFragment.sort(Task.SORT_by_deadline);
+                                sortKey = Task.SORT_by_deadline;
+                                break;
+                            case R.id.sort_by_worked_time:
+                                taskListFragment.sort(Task.SORT_by_worked_time);
+                                sortKey = Task.SORT_by_worked_time;
+                                break;
+                            case R.id.sort_by_priority:
+                                taskListFragment.sort(Task.SORT_by_priority);
+                                sortKey = Task.SORT_by_priority;
                                 break;
                             default:
+                                sortKey="";
                                 break;
                         }
+                        SharedPreferences userSettings = getSharedPreferences("Concentration_setting", Context.MODE_PRIVATE);
+                        userSettings.edit().putString(MyApplication.PREFERENCE_SETTINGS_SORT_KEY,sortKey).apply();
                         popupWindow.dismiss();
                     }
                 };
+
+                Button sortByWorkedTime = view.findViewById(R.id.sort_by_worked_time);
+                sortByWorkedTime.setOnClickListener(sort);
+                Button sortByName = view.findViewById(R.id.sort_by_name);
+                sortByName.setOnClickListener(sort);
+                Button sortByPriority = view.findViewById(R.id.sort_by_priority);
+                sortByPriority.setOnClickListener(sort);
+                Button sortByDeadline = view.findViewById(R.id.sort_by_deadline);
+                sortByDeadline.setOnClickListener(sort);
             }
         });
     }
@@ -206,7 +243,7 @@ public class TaskListActivity extends AppCompatActivity {
 
     }
 
-//    @Override
+    //    @Override
 //    public boolean dispatchTouchEvent(MotionEvent ev) {
 //        View view;
 //        //不知道有没有更好的实现办法

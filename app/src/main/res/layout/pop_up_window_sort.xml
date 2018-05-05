@@ -8,20 +8,40 @@
         android:id="@+id/sort_by_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/colorWhite"
+        android:textColor="@color/colorOrangeRed"
         android:textSize="14sp"
         android:padding="8dp"
-        android:text="sort by name"
+        android:text="@string/sort_by_name"
         android:background="?android:attr/selectableItemBackground"/>
 
     <Button
-        android:id="@+id/sort_by_start_time"
+        android:id="@+id/sort_by_priority"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/colorWhite"
+        android:textColor="@color/colorOrangeRed"
         android:textSize="14sp"
         android:padding="8dp"
-        android:text="sort by start time"
+        android:text="@string/sort_by_priority"
+        android:background="?android:attr/selectableItemBackground"/>
+
+    <Button
+        android:id="@+id/sort_by_worked_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorOrangeRed"
+        android:textSize="14sp"
+        android:padding="8dp"
+        android:text="@string/sort_by_worked_time"
+        android:background="?android:attr/selectableItemBackground"/>
+
+    <Button
+        android:id="@+id/sort_by_deadline"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorOrangeRed"
+        android:textSize="14sp"
+        android:padding="8dp"
+        android:text="@string/sort_by_deadline"
         android:background="?android:attr/selectableItemBackground"/>
 
 </LinearLayout>

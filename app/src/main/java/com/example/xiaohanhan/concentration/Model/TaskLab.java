@@ -200,8 +200,8 @@ public class TaskLab {
         protected Void doInBackground(Void... voids) {
             MySQLHelper mySQLHelper = new MySQLHelper();
             try{
-                mySQLHelper.ExecuteSQL("Update task set task_name=?,expect_time=?,reminder=?,priority=?,expect_working_time=?,detail=?,is_finish=? where id=?"
-                        ,mTask.getTaskName(),mTask.getDeadline(),mTask.getReminder(),mTask.getPriority(),mTask.getExpectedWorkingTime(),mTask.getDetail(),mTask.isFinish()?1:0,mTask.getId());
+                mySQLHelper.ExecuteSQL("Update task set task_name=?,expect_time=?,finish_time=?,reminder=?,priority=?,expect_working_time=?,detail=?,is_finish=? where id=?"
+                        ,mTask.getTaskName(),mTask.getDeadline(),mTask.getFinishDate(),mTask.getReminder(),mTask.getPriority(),mTask.getExpectedWorkingTime(),mTask.getDetail(),mTask.isFinish()?1:0,mTask.getId());
             } catch(Exception ex){
                 ex.printStackTrace();
             }

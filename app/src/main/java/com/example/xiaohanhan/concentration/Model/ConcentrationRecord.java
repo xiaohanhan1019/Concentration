@@ -13,11 +13,13 @@ public class ConcentrationRecord {
     private int mTaskId;
     private Timestamp mStartTime;
     private int mWorkingtime;
+    private boolean mIsInterrupted;
 
     public static final String KEY_id = "id";
     public static final String KEY_task_id = "task_id";
     public static final String KEY_start_time = "start_time";
     public static final String KEY_working_time = "working_time";
+    public static final String KEY_is_interrupted = "is_interrupted";
 
     public ConcentrationRecord(int taskId){
         mTaskId=taskId;
@@ -55,4 +57,13 @@ public class ConcentrationRecord {
     public void setWorkingtime(int workingtime) {
         mWorkingtime = workingtime;
     }
+
+    public boolean isInterrupted() {
+        return mIsInterrupted;
+    }
+
+    public void setInterrupted(boolean interrupted) {
+        mIsInterrupted = interrupted;
+    }
+
 }

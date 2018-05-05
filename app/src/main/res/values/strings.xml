@@ -16,4 +16,10 @@
 
     <!-- dialog_interruption -->
     <string name="interruption_add_reason">Add Reason</string>
+
+    <!-- sort popupwindow -->
+    <string name="sort_by_name">sort by name</string>
+    <string name="sort_by_priority">sort by priority</string>
+    <string name="sort_by_worked_time">sort by worked time</string>
+    <string name="sort_by_deadline">sort by deadline</string>
 </resources>

@@ -385,15 +385,6 @@
             </android.support.v7.widget.RecyclerView>
 
             <Button
-                android:id="@+id/detail_finish_task"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="?android:attr/selectableItemBackground"
-                android:layout_marginTop="16dp"
-                android:text="FINISH"
-                android:textColor="@color/colorPrimary" />
-
-            <Button
                 android:id="@+id/detail_delete_task"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

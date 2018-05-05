@@ -12,14 +12,11 @@ import android.util.Log;
 public class MyApplication extends Application {
 
     public static final String PREFERENCE_SETTINGS_WORKING_TIME = "working_time";
-    private static final int mDefaultWorkingTime = 100;
+    public static final String PREFERENCE_SETTINGS_SORT_KEY = "sort_key";
 
     @Override
     public void onCreate() {
         super.onCreate();
-        SharedPreferences mUserSettings = getSharedPreferences("Concentration_setting", Context.MODE_PRIVATE);
-        mUserSettings.edit().putInt(MyApplication.PREFERENCE_SETTINGS_WORKING_TIME,mDefaultWorkingTime).apply();
-
     }
 
 }

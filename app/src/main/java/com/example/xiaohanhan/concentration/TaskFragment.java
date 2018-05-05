@@ -79,7 +79,6 @@ public class TaskFragment extends Fragment {
     private TextView mTaskDurationAndTimes;
     private TextView mGroupName;
     private Button mDeleteTask;
-    private Button mFinishTask;
 
     private RelativeLayout mTaskDeadlineLayout;
     private RelativeLayout mTaskReminderLayout;
@@ -274,20 +273,6 @@ public class TaskFragment extends Fragment {
                 TaskLab.get().dbDeleteTask(mTask.getId());
                 TaskLab.get().getTaskGroups(mTaskGroup.getId()).deleteTask(mTask.getId());
                 getActivity().finish();
-            }
-        });
-
-        mFinishTask = v.findViewById(R.id.detail_finish_task);
-        mFinishTask.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mTask.setFinish(!mTask.isFinish());
-                TaskLab.get().dbUpdateTask(mTask);
-                if(mTask.isFinish()){
-                    Toast.makeText(getActivity(),"Finish!",Toast.LENGTH_LONG).show();
-                } else {
-                    Toast.makeText(getActivity(),"Not Finish",Toast.LENGTH_LONG).show();
-                }
             }
         });
 

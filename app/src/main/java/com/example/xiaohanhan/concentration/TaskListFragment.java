@@ -1,8 +1,10 @@
 package com.example.xiaohanhan.concentration;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
@@ -16,6 +18,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -32,7 +35,10 @@ import com.example.xiaohanhan.concentration.Model.Task;
 import com.example.xiaohanhan.concentration.Model.TaskGroup;
 import com.example.xiaohanhan.concentration.Model.TaskLab;
 
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -257,10 +263,13 @@ public class TaskListFragment extends Fragment{
             if(mTask.isFinish()) {
                 mTaskName.setTextColor(Color.GRAY);
                 mTaskName.setPaintFlags(mTaskName.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                mTask.setFinishDate(new Timestamp(new Date().getTime()));
             } else {
                 mTaskName.setTextColor(Color.DKGRAY);
                 mTaskName.setPaintFlags(mTaskName.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+                mTask.setFinishDate(null);
             }
+            TaskLab.get().dbUpdateTask(mTask);
             return true;
         }
     }
@@ -300,11 +309,37 @@ public class TaskListFragment extends Fragment{
             mTaskAdapter.notifyDataSetChanged();
         }
         mTaskNumber.setText(String.format(Locale.getDefault(),"(%d)",mTaskGroup.getTaskNumber()));
+        SharedPreferences userSettings = getActivity().getSharedPreferences("Concentration_setting", Context.MODE_PRIVATE);
+        String sortKey = userSettings.getString(MyApplication.PREFERENCE_SETTINGS_SORT_KEY,"");
+        sort(sortKey);
     }
 
     @Override
     public void onResume() {
         super.onResume();
         updateUI();
+    }
+
+    public void sort(String sortKey){
+        Comparator<Task> comparator;
+        switch (sortKey){
+            case Task.SORT_by_name:
+                comparator = new Task.ComparatorByName();
+                break;
+            case Task.SORT_by_deadline:
+                comparator = new Task.ComparatorByDeadline();
+                break;
+            case Task.SORT_by_priority:
+                comparator = new Task.ComparatorByPriority();
+                break;
+            case Task.SORT_by_worked_time:
+                comparator = new Task.ComparatorByWorkedTime();
+                break;
+            default:
+                comparator = new Task.ComparatorDefault();
+                break;
+        }
+        mTaskGroup.getTasks().sort(comparator);
+        mTaskAdapter.notifyDataSetChanged();
     }
 }

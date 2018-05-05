@@ -50,8 +50,8 @@ public class ConcentrationRecordLab {
         protected Void doInBackground(Void... voids) {
             MySQLHelper mySQLHelper = new MySQLHelper();
             try{
-                mConcentrationRecord.setId(mySQLHelper.ExecuteSQL("Insert into concentration_record(task_id,start_time,working_time) values(?,?,?)"
-                        ,mConcentrationRecord.getTaskId(),mConcentrationRecord.getStartTime(),mConcentrationRecord.getWorkingtime()));
+                mConcentrationRecord.setId(mySQLHelper.ExecuteSQL("Insert into concentration_record(task_id,start_time,working_time,is_interrupted) values(?,?,?,?)"
+                        ,mConcentrationRecord.getTaskId(),mConcentrationRecord.getStartTime(),mConcentrationRecord.getWorkingtime(),mConcentrationRecord.isInterrupted()?1:0));
             } catch(Exception ex){
                 ex.printStackTrace();
             }
