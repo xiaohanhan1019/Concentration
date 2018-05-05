@@ -1,6 +1,5 @@
-package com.example.xiaohanhan.concentration;
+package com.example.xiaohanhan.concentration.Fragment;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -8,18 +7,20 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.NavUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.xiaohanhan.concentration.Util.CircleProgressView;
 import com.example.xiaohanhan.concentration.Model.ConcentrationRecord;
 import com.example.xiaohanhan.concentration.Model.ConcentrationRecordLab;
 import com.example.xiaohanhan.concentration.Model.SloganLab;
 import com.example.xiaohanhan.concentration.Model.Task;
 import com.example.xiaohanhan.concentration.Model.TaskLab;
+import com.example.xiaohanhan.concentration.Application.MyApplication;
+import com.example.xiaohanhan.concentration.R;
 
 import java.lang.ref.WeakReference;
 

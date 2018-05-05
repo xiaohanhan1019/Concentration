@@ -1,4 +1,4 @@
-package com.example.xiaohanhan.concentration;
+package com.example.xiaohanhan.concentration.Fragment;
 
 import android.app.Activity;
 import android.content.Context;
@@ -13,7 +13,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,6 +38,7 @@ import com.example.xiaohanhan.concentration.Model.SubTask;
 import com.example.xiaohanhan.concentration.Model.Task;
 import com.example.xiaohanhan.concentration.Model.TaskGroup;
 import com.example.xiaohanhan.concentration.Model.TaskLab;
+import com.example.xiaohanhan.concentration.R;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;

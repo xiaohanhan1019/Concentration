@@ -1,4 +1,4 @@
-package com.example.xiaohanhan.concentration;
+package com.example.xiaohanhan.concentration.Activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -8,6 +8,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.widget.Toast;
+
+import com.example.xiaohanhan.concentration.Fragment.ConcentrationFragment;
+import com.example.xiaohanhan.concentration.R;
 
 public class ConcentrationActivity extends AppCompatActivity {
 

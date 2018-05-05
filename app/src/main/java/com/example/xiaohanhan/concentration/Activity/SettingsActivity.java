@@ -1,12 +1,14 @@
-package com.example.xiaohanhan.concentration;
+package com.example.xiaohanhan.concentration.Activity;
 
-import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.example.xiaohanhan.concentration.Fragment.SettingsFragment;
+import com.example.xiaohanhan.concentration.R;
 
 public class SettingsActivity extends AppCompatActivity {
 

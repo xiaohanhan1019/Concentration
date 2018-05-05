@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.xiaohanhan.concentration.SplashActivity">
+    tools:context="com.example.xiaohanhan.concentration.Activity.SplashActivity">
 
     <RelativeLayout
         android:layout_gravity="center"

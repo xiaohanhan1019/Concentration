@@ -1,4 +1,4 @@
-package com.example.xiaohanhan.concentration;
+package com.example.xiaohanhan.concentration.Fragment;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -25,11 +25,16 @@ import android.widget.ImageButton;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.example.xiaohanhan.concentration.Activity.ConcentrationActivity;
 import com.example.xiaohanhan.concentration.Dialog.InterruptionFragment;
 import com.example.xiaohanhan.concentration.Dialog.ManageGroupFragment;
 import com.example.xiaohanhan.concentration.Model.Task;
 import com.example.xiaohanhan.concentration.Model.TaskGroup;
 import com.example.xiaohanhan.concentration.Model.TaskLab;
+import com.example.xiaohanhan.concentration.Application.MyApplication;
+import com.example.xiaohanhan.concentration.R;
+import com.example.xiaohanhan.concentration.Activity.TaskActivity;
+import com.example.xiaohanhan.concentration.Activity.TaskListActivity;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;

@@ -1,9 +1,8 @@
 package com.example.xiaohanhan.concentration.Model;
 
-import android.content.Context;
 import android.os.AsyncTask;
 
-import com.example.xiaohanhan.concentration.MySQLHelper;
+import com.example.xiaohanhan.concentration.Util.MySQLHelper;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,6 +1,5 @@
 package com.example.xiaohanhan.concentration.Dialog;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,18 +22,13 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.example.xiaohanhan.concentration.Model.Interruption;
-import com.example.xiaohanhan.concentration.Model.Task;
 import com.example.xiaohanhan.concentration.Model.TaskGroup;
 import com.example.xiaohanhan.concentration.Model.TaskLab;
 import com.example.xiaohanhan.concentration.R;
-import com.example.xiaohanhan.concentration.TaskListActivity;
+import com.example.xiaohanhan.concentration.Activity.TaskListActivity;
 import com.matrixxun.starry.badgetextview.MaterialBadgeTextView;
 
-import java.security.AccessControlContext;
-import java.security.acl.Group;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * Created by xiaohanhan on 2018/4/30.

@@ -2,7 +2,7 @@ package com.example.xiaohanhan.concentration.Model;
 
 import android.os.AsyncTask;
 
-import com.example.xiaohanhan.concentration.MySQLHelper;
+import com.example.xiaohanhan.concentration.Util.MySQLHelper;
 
 import java.util.List;
 

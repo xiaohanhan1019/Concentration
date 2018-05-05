@@ -1,4 +1,4 @@
-package com.example.xiaohanhan.concentration;
+package com.example.xiaohanhan.concentration.Application;
 
 import android.app.Application;
 import android.content.Context;

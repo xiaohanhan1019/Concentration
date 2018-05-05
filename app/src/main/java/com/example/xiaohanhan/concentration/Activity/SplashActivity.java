@@ -1,11 +1,11 @@
-package com.example.xiaohanhan.concentration;
+package com.example.xiaohanhan.concentration.Activity;
 
 import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import com.example.xiaohanhan.concentration.Model.TaskLab;
+import com.example.xiaohanhan.concentration.R;
 
 public class SplashActivity extends AppCompatActivity {
 

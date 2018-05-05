@@ -1,9 +1,8 @@
-package com.example.xiaohanhan.concentration;
+package com.example.xiaohanhan.concentration.Activity;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -16,7 +15,6 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -30,17 +28,17 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.xiaohanhan.concentration.Fragment.TaskListFragment;
 import com.example.xiaohanhan.concentration.Model.Task;
 import com.example.xiaohanhan.concentration.Model.TaskGroup;
 import com.example.xiaohanhan.concentration.Model.TaskLab;
+import com.example.xiaohanhan.concentration.Application.MyApplication;
+import com.example.xiaohanhan.concentration.R;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-
-import static android.view.View.VISIBLE;
 
 public class TaskListActivity extends AppCompatActivity {
 

@@ -37,7 +37,7 @@
 
         </LinearLayout>
 
-        <com.example.xiaohanhan.concentration.CircleProgressView
+        <com.example.xiaohanhan.concentration.Util.CircleProgressView
             android:id="@+id/circle_progress_view"
             android:layout_width="match_parent"
             android:layout_height="250dp"

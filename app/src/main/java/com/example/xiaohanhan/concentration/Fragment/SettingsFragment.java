@@ -1,6 +1,5 @@
-package com.example.xiaohanhan.concentration;
+package com.example.xiaohanhan.concentration.Fragment;
 
-import android.app.ActionBar;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -17,6 +16,9 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.example.xiaohanhan.concentration.Application.MyApplication;
+import com.example.xiaohanhan.concentration.R;
 
 import java.util.Locale;
 

@@ -1,4 +1,4 @@
-package com.example.xiaohanhan.concentration;
+package com.example.xiaohanhan.concentration.Util;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -13,6 +13,8 @@ import android.graphics.RectF;
 import android.os.AsyncTask;
 import android.util.AttributeSet;
 import android.view.View;
+
+import com.example.xiaohanhan.concentration.R;
 
 import java.util.Locale;
 

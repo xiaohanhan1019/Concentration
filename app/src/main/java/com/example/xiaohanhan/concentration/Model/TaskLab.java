@@ -1,14 +1,10 @@
 package com.example.xiaohanhan.concentration.Model;
 
-import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.example.xiaohanhan.concentration.MySQLHelper;
-import com.example.xiaohanhan.concentration.TaskListActivity;
+import com.example.xiaohanhan.concentration.Util.MySQLHelper;
 
-import java.lang.ref.WeakReference;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
