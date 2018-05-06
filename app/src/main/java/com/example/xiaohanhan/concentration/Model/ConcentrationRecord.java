@@ -26,6 +26,10 @@ public class ConcentrationRecord {
         mStartTime = new Timestamp(new Date().getTime());
     }
 
+    public ConcentrationRecord(){
+
+    }
+
     public int getId() {
         return mId;
     }

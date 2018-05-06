@@ -2,6 +2,7 @@ package com.example.xiaohanhan.concentration.Util;
 
 import android.util.Log;
 
+import com.example.xiaohanhan.concentration.Model.ConcentrationRecord;
 import com.example.xiaohanhan.concentration.Model.Interruption;
 import com.example.xiaohanhan.concentration.Model.SubTask;
 import com.example.xiaohanhan.concentration.Model.Task;
@@ -149,6 +150,34 @@ public class MySQLHelper {
                 interruptions.add(interruption);
             }
             return interruptions;
+        } catch (SQLException e) {
+            throw new SQLException(e);
+        } finally {
+            closeAll(conn,ps,rs);
+        }
+    }
+
+    public List<ConcentrationRecord> getConcentrationRecord(int taskId) throws SQLException{
+        List<ConcentrationRecord> concentrationRecords = new ArrayList<>();
+        String sql = "select * from concentration_record where task_id='" + taskId + "'";
+
+        ResultSet rs = null;
+        Connection conn = null;
+        PreparedStatement ps = null;
+
+        try {
+            conn = getConn();
+            ps = conn.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                ConcentrationRecord concentrationRecord = new ConcentrationRecord();
+                concentrationRecord.setStartTime(rs.getTimestamp(ConcentrationRecord.KEY_start_time));
+                concentrationRecord.setWorkingtime(rs.getInt(ConcentrationRecord.KEY_working_time));
+                concentrationRecord.setInterrupted(rs.getInt(ConcentrationRecord.KEY_is_interrupted)==1);
+
+                concentrationRecords.add(concentrationRecord);
+            }
+            return concentrationRecords;
         } catch (SQLException e) {
             throw new SQLException(e);
         } finally {

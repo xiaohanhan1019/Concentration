@@ -18,17 +18,17 @@ public class TaskActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_task);
+        setContentView(R.layout.activity_fragment_container);
 
         int taskId = getIntent().getIntExtra(EXTRA_TASK_ID,0);
         int taskGroupId = getIntent().getIntExtra(EXTRA_TASK_GROUP_ID,0);
 
         FragmentManager fm = getSupportFragmentManager();
-        Fragment fragment = fm.findFragmentById(R.id.task_fragment_container);
+        Fragment fragment = fm.findFragmentById(R.id.fragment_container);
 
         if (fragment == null){
             fragment = TaskFragment.newInstance(taskGroupId,taskId);
-            fm.beginTransaction().add(R.id.task_fragment_container,fragment).commit();
+            fm.beginTransaction().add(R.id.fragment_container,fragment).commit();
         }
     }
 

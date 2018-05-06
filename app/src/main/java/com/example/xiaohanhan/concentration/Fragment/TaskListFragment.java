@@ -96,10 +96,10 @@ public class TaskListFragment extends Fragment{
 
         mTaskRecyclerView = v.findViewById(R.id.task_recycler_view);
         mTaskRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        DefaultItemAnimator animator = new DefaultItemAnimator();
-        animator.setAddDuration(2000);
-        animator.setRemoveDuration(2000);
-        mTaskRecyclerView.setItemAnimator(animator);
+//        DefaultItemAnimator animator = new DefaultItemAnimator();
+//        animator.setAddDuration(2000);
+//        animator.setRemoveDuration(2000);
+//        mTaskRecyclerView.setItemAnimator(animator);
 
         mTaskGroupName = v.findViewById(R.id.task_group_name);
         mTaskGroupName.setText(mTaskGroup.getName());

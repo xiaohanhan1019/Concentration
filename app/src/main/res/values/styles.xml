@@ -9,4 +9,9 @@
         <item name="android:windowBackground">@color/colorDefaultBackground</item>
     </style>
 
+    <style name="anim_popupwindow">
+        <item name="android:windowEnterAnimation">@anim/popupwindow_bottom_up_in</item>
+        <item name="android:windowExitAnimation">@anim/popupwindow_bottom_up_out</item>
+    </style>
+
 </resources>

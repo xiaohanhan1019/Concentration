@@ -15,14 +15,14 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_task);
+        setContentView(R.layout.activity_fragment_container);
 
         FragmentManager fm = getSupportFragmentManager();
         Fragment fragment = fm.findFragmentById(R.id.settings_fragment_container);
 
         if (fragment == null){
             fragment = new SettingsFragment();
-            fm.beginTransaction().add(R.id.task_fragment_container,fragment).commit();
+            fm.beginTransaction().add(R.id.fragment_container,fragment).commit();
         }
     }
 

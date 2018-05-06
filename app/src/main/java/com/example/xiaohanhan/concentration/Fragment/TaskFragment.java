@@ -30,6 +30,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.xiaohanhan.concentration.Activity.TaskStatisticActivity;
 import com.example.xiaohanhan.concentration.Dialog.DatePickerFragment;
 import com.example.xiaohanhan.concentration.Dialog.ExpectedTimeFragment;
 import com.example.xiaohanhan.concentration.Dialog.NoteFragment;
@@ -79,6 +80,7 @@ public class TaskFragment extends Fragment {
     private TextView mTaskDurationAndTimes;
     private TextView mGroupName;
     private Button mDeleteTask;
+    private ImageButton mTaskStatistic;
 
     private RelativeLayout mTaskDeadlineLayout;
     private RelativeLayout mTaskReminderLayout;
@@ -90,8 +92,6 @@ public class TaskFragment extends Fragment {
     private RecyclerView mSubTaskRecycleView;
     private SubTaskAdapter mSubTaskAdapter;
     private EditText mAddSubTask;
-
-    //TODO 连数据库记得写onPause
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -275,6 +275,16 @@ public class TaskFragment extends Fragment {
                 TaskLab.get().getTaskGroups(mTaskGroup.getId()).deleteTask(mTask.getId());
                 Toast.makeText(getActivity(),"Delete!",Toast.LENGTH_LONG).show();
                 getActivity().finish();
+            }
+        });
+
+        mTaskStatistic = v.findViewById(R.id.detail_task_statistic);
+        mTaskStatistic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = TaskStatisticActivity.newIntent(getActivity(),mTaskGroup.getId(),mTask.getId());
+                startActivity(intent);
+                getActivity().overridePendingTransition(R.anim.goright_left_to_right,R.anim.goright_right_to_left);
             }
         });
 

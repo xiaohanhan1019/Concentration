@@ -31,4 +31,12 @@
     <!-- fuck up -->
     <string name="fuck_up_try_again">Click to try again</string>
     <string name="network_error">Network Error</string>
+
+    <!-- record -->
+    <string name="record_interrupt">Interrupted</string>
+    <string name="record_working_time">%1$.1f Minutes</string>
+    <string name="record_expected_working_time">Expected Working Time: %1$d mins</string>
+
+    <!-- statistic -->
+    <string name="statistic_start_time">(Begin: %1$s)</string>
 </resources>

@@ -126,6 +126,7 @@ public class TaskListActivity extends AppCompatActivity {
                 popupWindow.setBackgroundDrawable(new ColorDrawable(0xFFFAFAFA));
                 popupWindow.setTouchable(true);
                 popupWindow.setOutsideTouchable(true);
+                popupWindow.setAnimationStyle(R.style.anim_popupwindow);
                 popupWindow.showAtLocation(findViewById(R.id.task_list_main_layout), Gravity.BOTTOM,0,0);
 
                 //set background
@@ -194,7 +195,6 @@ public class TaskListActivity extends AppCompatActivity {
         mFuckUpLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(TaskListActivity.this, "Loading...", Toast.LENGTH_LONG).show();
                 updateUI();
             }
         });

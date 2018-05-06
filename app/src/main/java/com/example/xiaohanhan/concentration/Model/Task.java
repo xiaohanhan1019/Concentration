@@ -219,7 +219,7 @@ public class Task {
                 if (o1.getDeadline().equals(o2.getDeadline()))
                     return o1.getStartDate().compareTo(o2.getStartDate());
                 else
-                    return o2.getDeadline().compareTo(o1.getDeadline());
+                    return o1.getDeadline().compareTo(o2.getDeadline());
             } else {
                 if(o1.getDeadline()!=null)
                     return -1;

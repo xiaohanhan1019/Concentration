@@ -14,8 +14,6 @@ public class ConcentrationRecordLab {
 
     private static ConcentrationRecordLab sConcentrationRecordLab;
 
-    private List<ConcentrationRecord> mConcentrationRecords;
-
     public static ConcentrationRecordLab get(){
         if(sConcentrationRecordLab == null){
             sConcentrationRecordLab= new ConcentrationRecordLab();
@@ -26,10 +24,6 @@ public class ConcentrationRecordLab {
     private ConcentrationRecordLab()
     {
 
-    }
-
-    public List<ConcentrationRecord> getConcentrationRecords() {
-        return mConcentrationRecords;
     }
 
     public void dbInsertRecord(ConcentrationRecord concentrationRecord){
