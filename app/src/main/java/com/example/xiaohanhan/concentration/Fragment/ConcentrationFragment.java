@@ -179,7 +179,9 @@ public class ConcentrationFragment extends Fragment{
         Intent intent = new Intent();
         intent.putExtra(EXTRA_IS_INTERRPUTED,isInterrupted);
 
-        Toast.makeText(getActivity(),"Concentrate Finish!",Toast.LENGTH_SHORT).show();
+        if(!isInterrupted) {
+            Toast.makeText(getActivity(), "Concentrate Finish!", Toast.LENGTH_SHORT).show();
+        }
 
         getActivity().setResult(resultCode,intent);
         getActivity().finish();
