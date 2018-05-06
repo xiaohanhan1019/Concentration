@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.xiaohanhan.concentration.Util.CircleProgressView;
 import com.example.xiaohanhan.concentration.Model.ConcentrationRecord;
@@ -177,6 +178,8 @@ public class ConcentrationFragment extends Fragment{
     private void sendResult(int resultCode, boolean isInterrupted){
         Intent intent = new Intent();
         intent.putExtra(EXTRA_IS_INTERRPUTED,isInterrupted);
+
+        Toast.makeText(getActivity(),"Concentrate Finish!",Toast.LENGTH_SHORT).show();
 
         getActivity().setResult(resultCode,intent);
         getActivity().finish();
