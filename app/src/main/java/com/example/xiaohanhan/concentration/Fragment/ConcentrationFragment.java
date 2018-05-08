@@ -133,7 +133,7 @@ public class ConcentrationFragment extends Fragment{
                 mCurrentTime += 1;
                 publishProgress(mCurrentTime);
                 try {
-                    Thread.sleep(100);
+                    Thread.sleep(950);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
