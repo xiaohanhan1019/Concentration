@@ -211,7 +211,6 @@ public class TaskListFragment extends Fragment{
 
         public void bind(Task task){
             //给控件设值
-            //TODO tag
             mTask = task;
             switch(mTask.getPriority()){
                 case 1:
@@ -266,14 +265,18 @@ public class TaskListFragment extends Fragment{
         @Override
         public boolean onLongClick(View v) {
             mTask.setFinish(!mTask.isFinish());
+            SharedPreferences userSettings = getActivity().getSharedPreferences("Concentration_setting", Context.MODE_PRIVATE);
+            String sortKey = userSettings.getString(MyApplication.PREFERENCE_SETTINGS_SORT_KEY,"");
             if(mTask.isFinish()) {
                 mTaskName.setTextColor(Color.GRAY);
                 mTaskName.setPaintFlags(mTaskName.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
                 mTask.setFinishDate(new Timestamp(new Date().getTime()));
+                sort(sortKey);
             } else {
                 mTaskName.setTextColor(Color.DKGRAY);
                 mTaskName.setPaintFlags(mTaskName.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
                 mTask.setFinishDate(null);
+                sort(sortKey);
             }
             TaskLab.get().dbUpdateTask(mTask);
             return true;
