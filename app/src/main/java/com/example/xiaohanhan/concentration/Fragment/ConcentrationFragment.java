@@ -188,5 +188,5 @@ public class ConcentrationFragment extends Fragment{
         getActivity().overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
     }
 
-    //TODO saveBundle
+    //TODO save progress status
 }
