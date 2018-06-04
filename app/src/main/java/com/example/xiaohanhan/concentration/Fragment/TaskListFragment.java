@@ -157,9 +157,12 @@ public class TaskListFragment extends Fragment{
         return v;
     }
 
+    /**
+     *跳转回来以后的一些处理
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
+        //Concentration页面回来以后判断是否是人为中断
         if(resultCode == ConcentrationFragment.RESULT_CONCENTRATION) {
             if (requestCode == REQUEST_CONCENTRATION) {
                 boolean isInterrupt = (boolean) data.getSerializableExtra(ConcentrationFragment.EXTRA_IS_INTERRPUTED);
@@ -170,6 +173,7 @@ public class TaskListFragment extends Fragment{
                 }
             }
         } else if(resultCode == ManageGroupFragment.RESULT_MANAGE_GROUP){
+            //选择任务组更新UI
             if(requestCode == REQUEST_GROUP){
                 int groupId = (int)data.getSerializableExtra(ManageGroupFragment.EXTRA_GROUP_ID);
                 mTaskListActivity.setCurrentPage(groupId);
@@ -177,6 +181,9 @@ public class TaskListFragment extends Fragment{
         }
     }
 
+    /**
+     * 任务适配器
+     */
     private class TaskHolder extends RecyclerView.ViewHolder implements View.OnClickListener,View.OnLongClickListener{
 
         private TextView mTaskPriority;
@@ -262,6 +269,9 @@ public class TaskListFragment extends Fragment{
             getActivity().overridePendingTransition(R.anim.goright_left_to_right,R.anim.goright_right_to_left);
         }
 
+        /**
+         *长按退出Concentration
+         */
         @Override
         public boolean onLongClick(View v) {
             mTask.setFinish(!mTask.isFinish());

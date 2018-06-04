@@ -126,6 +126,9 @@ public class ReminderPickerFragment extends android.support.v4.app.DialogFragmen
         return view;
     }
 
+    /**
+     * 修改dialog大小和效果
+     */
     @Override
     public void onStart() {
         super.onStart();

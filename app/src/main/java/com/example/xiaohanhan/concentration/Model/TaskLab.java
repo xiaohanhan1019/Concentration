@@ -34,7 +34,7 @@ public class TaskLab {
         SelectAllTaskGroup selectAllTaskGroup = new SelectAllTaskGroup();
         try {
             mTaskGroups = selectAllTaskGroup.execute().get();
-            Log.i("sql","get fucking data");
+            Log.i("sql","get data");
         } catch (Exception ex){
             ex.printStackTrace();
         }
@@ -69,7 +69,9 @@ public class TaskLab {
         }
     }
 
-    //Database
+    /**
+     *数据库操作
+     */
     public void dbAddTaskGroup(TaskGroup taskGroup){
         AddTaskGroup addTaskGroup = new AddTaskGroup(taskGroup);
         addTaskGroup.execute();

@@ -41,6 +41,9 @@ public class ConcentrationActivity extends AppCompatActivity {
         return intent;
     }
 
+    /**
+     * 不允许用户在Concentrate的时候返回
+     */
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {

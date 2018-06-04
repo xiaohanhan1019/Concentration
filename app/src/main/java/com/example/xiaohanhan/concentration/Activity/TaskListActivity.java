@@ -85,7 +85,7 @@ public class TaskListActivity extends AppCompatActivity {
 //        mShowChart.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
-//                //TODO 切换activity
+//
 //            }
 //        });
 

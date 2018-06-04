@@ -108,7 +108,7 @@ public class InterruptionLab {
 //        deleteInterruption.execute();
 //    }
 
-//    Cannot delete because of 侧滑不行
+//    不能删除
 //    private static class DeleteInterruption extends AsyncTask<Void,Void,Void>{
 //
 //        private int mInterruptionId;

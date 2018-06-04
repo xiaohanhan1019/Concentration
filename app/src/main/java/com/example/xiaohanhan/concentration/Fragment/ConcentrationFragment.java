@@ -100,6 +100,9 @@ public class ConcentrationFragment extends Fragment{
         return v;
     }
 
+    /**
+     * 计时线程
+     */
     private static class ConcentrateTask extends AsyncTask<Void,Integer,Void>{
 
         private WeakReference<ConcentrationFragment> mConcentrationFragmentWeakReference;
@@ -175,6 +178,9 @@ public class ConcentrationFragment extends Fragment{
         }
     }
 
+    /**
+     * 返回给主页面数据
+     */
     private void sendResult(int resultCode, boolean isInterrupted){
         Intent intent = new Intent();
         intent.putExtra(EXTRA_IS_INTERRPUTED,isInterrupted);
@@ -188,5 +194,4 @@ public class ConcentrationFragment extends Fragment{
         getActivity().overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
     }
 
-    //TODO save progress status
 }

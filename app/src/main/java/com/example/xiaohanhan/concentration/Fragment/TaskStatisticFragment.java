@@ -131,6 +131,9 @@ public class TaskStatisticFragment extends Fragment {
         return fragment;
     }
 
+    /**
+     * Concentration记录适配器
+     */
     private class RecordHolder extends RecyclerView.ViewHolder{
 
         private TextView mRecordWorkingTime;
@@ -203,6 +206,11 @@ public class TaskStatisticFragment extends Fragment {
         }
     }
 
+    /**
+     *
+     * @param timestamp 数据库的时间戳变量
+     * @return 返回GMT+8时区时间
+     */
     public String getGMT8TimeByTimeStamp(Timestamp timestamp){
         Calendar calendar=Calendar.getInstance();
         calendar.setTime(timestamp);
@@ -216,6 +224,9 @@ public class TaskStatisticFragment extends Fragment {
         return String.format(Locale.getDefault(),"%04d-%02d-%02d %02d:%02d:%02d",year,month,day,hour,minute,second);
     }
 
+    /**
+     * 获取数据库数据
+     */
     private static class SelectAllRecord extends AsyncTask<Void,Void,List<ConcentrationRecord>> {
 
         int taskId;

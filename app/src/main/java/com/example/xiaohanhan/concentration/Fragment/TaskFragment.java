@@ -303,6 +303,9 @@ public class TaskFragment extends Fragment {
         return fragment;
     }
 
+    /**
+     * 弹出dialog以后各种返回处理
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode != Activity.RESULT_OK) {
@@ -349,6 +352,9 @@ public class TaskFragment extends Fragment {
         }
     }
 
+    /**
+     * 任务优先级的适配器
+     */
     public class MyAdatper extends BaseAdapter {
         List<String> mPriority;
         Context mContext;
@@ -395,6 +401,9 @@ public class TaskFragment extends Fragment {
         }
     }
 
+    /**
+     * 子任务适配器
+     */
     private class SubTaskHolder extends RecyclerView.ViewHolder{
 
         private CheckBox mIsFinish;
@@ -459,6 +468,9 @@ public class TaskFragment extends Fragment {
         }
     }
 
+    /**
+     * 返回时完成数据库更新
+     */
     @Override
     public void onPause() {
         TaskLab.get().dbUpdateTask(mTask);

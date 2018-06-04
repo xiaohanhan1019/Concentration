@@ -80,7 +80,9 @@ public class CircleProgressView extends View{
         initVariable();
     }
 
-    //属性
+    /**
+     * 获取自定义view的属性
+     */
     private void initAttrs(Context context, AttributeSet attrs) {
         TypedArray typeArray = context.getResources().obtainAttributes(attrs,
                 R.styleable.CircleProgressViewAttrs);
@@ -103,7 +105,9 @@ public class CircleProgressView extends View{
         mRingRect = new RectF();
     }
 
-    //初始化画笔
+    /**
+     * 初始化
+     */
     private void initVariable() {
         //内圆
         mCirclePaint = new Paint();
@@ -148,7 +152,9 @@ public class CircleProgressView extends View{
         mBitPaint.setDither(true);
     }
 
-    //画图
+    /**
+     * 绘制
+     */
     @Override
     protected void onDraw(Canvas canvas) {
         mXCenter = getWidth() / 2;
@@ -204,13 +210,17 @@ public class CircleProgressView extends View{
 
     }
 
-    //定时
+    /**
+     * 定时
+     */
     public void setTotalTime(int totalTime){
         mCurrentTime = totalTime;
         mTotalTime = totalTime;
     }
 
-    //设置进度
+    /**
+     * 设置进度条进度
+     */
     public void setProgress(int currentTime) {
         mCurrentTime=mTotalTime-currentTime;
         mCurrentProgress = currentTime*mTotalProgress/mTotalTime;
@@ -218,7 +228,11 @@ public class CircleProgressView extends View{
         postInvalidate();
     }
 
-    //设置文字
+    /**
+     * 设置文字
+     * @param currentTime 当前倒计时时间
+     * @return 倒计时文字
+     */
     private String getTxt(int currentTime){
         int remainTime = currentTime;
         int h=remainTime/3600;
@@ -232,18 +246,24 @@ public class CircleProgressView extends View{
         }
     }
 
-    //缩放图片
+    /**
+     * 缩放图片
+     * @param bm 图片
+     * @param newWidth 定义宽度
+     * @param newHeight 定义高度
+     * @return 调整后图片
+     */
     public static Bitmap zoom(Bitmap bm, int newWidth ,int newHeight){
-        // 获得图片的宽高
+
         int width = bm.getWidth();
         int height = bm.getHeight();
-        // 计算缩放比例
+
         float scaleWidth = ((float) newWidth) / width;
         float scaleHeight = ((float) newHeight) / height;
         // 取得想要缩放的matrix参数
         Matrix matrix = new Matrix();
         matrix.postScale(scaleWidth, scaleHeight);
-        // 得到新的图片
+
         return Bitmap.createBitmap(bm, 0, 0, width, height, matrix, true);
     }
 

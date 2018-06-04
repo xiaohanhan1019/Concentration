@@ -183,6 +183,9 @@ public class Task {
         mWorkingTimes = workingTimes;
     }
 
+    /**
+     * 排序接口
+     */
     public static class ComparatorByName implements Comparator<Task>{
 
         @Override

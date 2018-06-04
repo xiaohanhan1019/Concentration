@@ -52,6 +52,7 @@ public class SettingsFragment extends Fragment {
             }
         });
 
+        //保存用户信息到SharedPreference
         mSettingsTime = v.findViewById(R.id.settings_working_time);
         SharedPreferences userSettings = getActivity().getSharedPreferences("Concentration_setting", Context.MODE_PRIVATE);
         int settingTime = userSettings.getInt(MyApplication.PREFERENCE_SETTINGS_WORKING_TIME,1800);
