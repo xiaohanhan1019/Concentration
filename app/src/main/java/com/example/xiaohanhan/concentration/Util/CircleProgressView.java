@@ -81,7 +81,7 @@ public class CircleProgressView extends View{
     }
 
     /**
-     * 获取自定义view的属性
+     * 设置自定义view的属性
      */
     private void initAttrs(Context context, AttributeSet attrs) {
         TypedArray typeArray = context.getResources().obtainAttributes(attrs,
