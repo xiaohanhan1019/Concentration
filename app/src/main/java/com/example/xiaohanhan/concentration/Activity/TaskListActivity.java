@@ -254,7 +254,7 @@ public class TaskListActivity extends AppCompatActivity {
     }
 
     void updateUI(){
-        TaskLab.get().getData();
+        //TaskLab.get().getData();
         mTaskGroups = TaskLab.get().getTaskGroups();
         if(mTaskGroups==null){
             //TODO
