@@ -254,7 +254,7 @@ public class TaskListActivity extends AppCompatActivity {
     }
 
     void updateUI(){
-        //TaskLab.get().getData();
+        TaskLab.get().getData(); //没有读到数据的情况，需要再读一次
         mTaskGroups = TaskLab.get().getTaskGroups();
         if(mTaskGroups==null){
             //TODO

@@ -156,6 +156,7 @@
 
             </RelativeLayout>
 
+
             <RelativeLayout
                 android:id="@+id/detail_task_reminder_layout"
                 android:layout_width="match_parent"
