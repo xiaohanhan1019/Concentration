@@ -99,7 +99,7 @@ public class MySQLHelper {
                     task.setWorkedTime(rs2.getInt(Task.KEY_worked_time));
                     task.setWorkingTimes(rs2.getInt(Task.KEY_working_times));
                     task.setDetail(rs2.getString(Task.KEY_detail));
-                    task.setFinish(rs2.getInt(Task.KEY_is_finish) == 1);
+                    //task.setFinish(rs2.getInt(Task.KEY_is_finish) == 1);
 
                     String sql3 = MessageFormat.format("select * from subtask where task_id = {0}",Integer.toString(task.getId()));
                     PreparedStatement ps3 = conn.prepareStatement(sql3);
