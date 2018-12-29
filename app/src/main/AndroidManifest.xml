@@ -13,8 +13,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".Activity.TaskListActivity"
-            android:launchMode="singleTop">
-        </activity>
+            android:launchMode="singleTop"></activity>
         <activity
             android:name=".Activity.TaskActivity"
             android:parentActivityName=".Activity.TaskListActivity" />
@@ -27,13 +26,14 @@
         <activity android:name=".Activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".Activity.TaskStatisticActivity"
             android:parentActivityName=".Activity.TaskActivity" />
-
+        <activity android:name=".Activity.TodayActivity"></activity>
     </application>
 
 </manifest>

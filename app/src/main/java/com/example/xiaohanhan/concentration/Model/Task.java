@@ -56,6 +56,7 @@ public class Task {
         mTaskName = taskName;
         mStartDate = new Timestamp(new Date().getTime());
         mSubTasks = new ArrayList<>();
+        mExpectedWorkingTime = 100;
     }
 
     public void addSubtask(SubTask subtask){

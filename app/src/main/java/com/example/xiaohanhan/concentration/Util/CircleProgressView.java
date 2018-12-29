@@ -204,9 +204,9 @@ public class CircleProgressView extends View{
         canvas.drawArc(mRingRect, -90, ((float) mCurrentProgress / mTotalProgress) * 360, false, mRingPaint); //
 
         //字体
-        String txt = getTxt(mCurrentTime);
-        mTxtWidth = mTextPaint.measureText(txt, 0, txt.length());
-        canvas.drawText(txt, mXCenter - mTxtWidth / 2, mYCenter + mTxtHeight / 4, mTextPaint);
+        String text = getTxt(mCurrentTime);
+        mTxtWidth = mTextPaint.measureText(text, 0, text.length());
+        canvas.drawText(text, mXCenter - mTxtWidth / 2, mYCenter + mTxtHeight / 4, mTextPaint);
 
     }
 

@@ -185,6 +185,35 @@ public class MySQLHelper {
         }
     }
 
+    public List<ConcentrationRecord> getTodayConcentrationRecord() throws SQLException{
+        List<ConcentrationRecord> concentrationRecords = new ArrayList<>();
+        String sql = "select concentration_record.start_time,concentration_record.working_time,concentration_record.is_interrupted,task.task_name from concentration_record,task where task.id=concentration_record.task_id and DateDiff(concentration_record.start_time,now())=0;";
+
+        ResultSet rs = null;
+        Connection conn = null;
+        PreparedStatement ps = null;
+
+        try {
+            conn = getConn();
+            ps = conn.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                ConcentrationRecord concentrationRecord = new ConcentrationRecord();
+                concentrationRecord.setStartTime(rs.getTimestamp(ConcentrationRecord.KEY_start_time));
+                concentrationRecord.setWorkingtime(rs.getInt(ConcentrationRecord.KEY_working_time));
+                concentrationRecord.setInterrupted(rs.getInt(ConcentrationRecord.KEY_is_interrupted)==1);
+                concentrationRecord.setTaskName(rs.getString(ConcentrationRecord.KEY_task_name));
+
+                concentrationRecords.add(concentrationRecord);
+            }
+            return concentrationRecords;
+        } catch (SQLException e) {
+            throw new SQLException(e);
+        } finally {
+            closeAll(conn,ps,rs);
+        }
+    }
+
     public int ExecuteSQL(String sql,Object... args) {
         int id = 0;
         Connection conn = null;

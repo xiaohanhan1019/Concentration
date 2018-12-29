@@ -184,7 +184,7 @@ public class TaskLab {
         protected Void doInBackground(Void... voids) {
             MySQLHelper mySQLHelper = new MySQLHelper();
             try{
-                mTask.setId(mySQLHelper.ExecuteSQL("Insert into task(task_group_id,task_name,start_time) values(?,?,?)",mTask.getGroupId(),mTask.getTaskName(),mTask.getStartDate()));
+                mTask.setId(mySQLHelper.ExecuteSQL("Insert into task(task_group_id,task_name,start_time,expect_working_time) values(?,?,?,?)",mTask.getGroupId(),mTask.getTaskName(),mTask.getStartDate(),mTask.getExpectedWorkingTime()));
             } catch(Exception ex){
                 ex.printStackTrace();
             }

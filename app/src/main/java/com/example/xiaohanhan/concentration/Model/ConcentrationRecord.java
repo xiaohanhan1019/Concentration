@@ -15,11 +15,14 @@ public class ConcentrationRecord {
     private int mWorkingtime;
     private boolean mIsInterrupted;
 
+    private String mTaskName;
+
     public static final String KEY_id = "id";
     public static final String KEY_task_id = "task_id";
     public static final String KEY_start_time = "start_time";
     public static final String KEY_working_time = "working_time";
     public static final String KEY_is_interrupted = "is_interrupted";
+    public static final String KEY_task_name = "task_name";
 
     public ConcentrationRecord(int taskId){
         mTaskId=taskId;
@@ -28,6 +31,14 @@ public class ConcentrationRecord {
 
     public ConcentrationRecord(){
 
+    }
+
+    public String getTaskName() {
+        return mTaskName;
+    }
+
+    public void setTaskName(String taskName) {
+        mTaskName = taskName;
     }
 
     public int getId() {
