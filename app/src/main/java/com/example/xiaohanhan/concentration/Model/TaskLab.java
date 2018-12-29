@@ -161,6 +161,8 @@ public class TaskLab {
         protected Void doInBackground(Void... voids) {
             MySQLHelper mySQLHelper = new MySQLHelper();
             try{
+                mySQLHelper.ExecuteSQL("Delete concentration_record from concentration_record,task where task.task_group_id=? and concentration_record.task_id=task.id",mGroupId);
+                mySQLHelper.ExecuteSQL("Delete subtask from subtask,task where task.task_group_id=? and subtask.task_id=task.id",mGroupId);
                 mySQLHelper.ExecuteSQL("Delete from task where task_group_id=?",mGroupId);
                 mySQLHelper.ExecuteSQL("Delete from task_group where id=?",mGroupId);
             } catch (Exception ex){
@@ -224,6 +226,7 @@ public class TaskLab {
             MySQLHelper mySQLHelper = new MySQLHelper();
             try{
                 mySQLHelper.ExecuteSQL("Delete from subtask where task_id=?",mTaskId);
+                mySQLHelper.ExecuteSQL("Delete from concentration_record where task_id=?",mTaskId);
                 mySQLHelper.ExecuteSQL("Delete from task where id=?",mTaskId);
             } catch (Exception ex){
                 ex.printStackTrace();

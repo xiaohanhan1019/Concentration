@@ -274,7 +274,7 @@ public class TaskListFragment extends Fragment{
          */
         @Override
         public boolean onLongClick(View v) {
-            mTask.setFinish(!mTask.isFinish());
+            //mTask.setFinish(!mTask.isFinish());
             SharedPreferences userSettings = getActivity().getSharedPreferences("Concentration_setting", Context.MODE_PRIVATE);
             String sortKey = userSettings.getString(MyApplication.PREFERENCE_SETTINGS_SORT_KEY,"");
             if(mTask.isFinish()) {

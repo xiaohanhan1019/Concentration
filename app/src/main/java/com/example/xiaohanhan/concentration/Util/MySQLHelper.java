@@ -25,9 +25,9 @@ import java.util.List;
 public class MySQLHelper {
 
     private static final String driver = "com.mysql.jdbc.Driver";
-    private static final String url = "jdbc:mysql://106.2.23.8/songzihan?connectTimeout=2000";
-    private static final String user = "mysql";
-    private static final String password = "mysql";
+    private static final String url = "jdbc:mysql://10.0.2.2/concentration?connectTimeout=2000";
+    private static final String user = "root";
+    private static final String password = "1019";
 
     private static Connection getConn(){
         Connection conn = null;
@@ -99,7 +99,7 @@ public class MySQLHelper {
                     task.setWorkedTime(rs2.getInt(Task.KEY_worked_time));
                     task.setWorkingTimes(rs2.getInt(Task.KEY_working_times));
                     task.setDetail(rs2.getString(Task.KEY_detail));
-                    task.setFinish(rs2.getInt(Task.KEY_is_finish) == 1);
+                    //task.setFinish(rs2.getInt(Task.KEY_is_finish) == 1);
 
                     String sql3 = MessageFormat.format("select * from subtask where task_id = {0}",Integer.toString(task.getId()));
                     PreparedStatement ps3 = conn.prepareStatement(sql3);

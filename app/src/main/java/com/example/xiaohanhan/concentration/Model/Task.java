@@ -160,12 +160,15 @@ public class Task {
     }
 
     public boolean isFinish() {
-        return mIsFinish;
+        if(mWorkedTime/60>=mExpectedWorkingTime)
+            return true;
+        else
+            return false;
     }
 
-    public void setFinish(boolean finish) {
-        mIsFinish = finish;
-    }
+    //public void setFinish(boolean finish) {
+        //mIsFinish = finish;
+    //}
 
     public List<SubTask> getSubTasks() {
         return mSubTasks;
