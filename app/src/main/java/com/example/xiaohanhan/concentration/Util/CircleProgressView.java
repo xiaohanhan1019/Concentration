@@ -18,10 +18,6 @@ import com.example.xiaohanhan.concentration.R;
 
 import java.util.Locale;
 
-/**
- * Created by xiaohanhan on 2018/4/18.
- */
-
 public class CircleProgressView extends View{
 
     // 画实心圆的画笔

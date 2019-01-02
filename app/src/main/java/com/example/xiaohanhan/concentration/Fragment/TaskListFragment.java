@@ -43,10 +43,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-/**
- * Created by xiaohanhan on 2018/4/17.
- */
-
 public class TaskListFragment extends Fragment{
 
     private static final String ARG_TASK_GROUP_ID = "task_group_id";

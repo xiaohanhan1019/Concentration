@@ -15,10 +15,6 @@ import com.example.xiaohanhan.concentration.R;
 
 import java.util.Locale;
 
-/**
- * Created by xiaohanhan on 2018/4/22.
- */
-
 public class ExpectedTimeFragment extends DialogFragment {
 
     public static final String EXTRA_EXPECTED_WORKING_TIME = "ExpectedTimeFragment_Expected_working_time";

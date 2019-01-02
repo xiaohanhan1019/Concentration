@@ -3,10 +3,6 @@ package com.example.xiaohanhan.concentration.Model;
 import java.sql.Timestamp;
 import java.util.Date;
 
-/**
- * Created by xiaohanhan on 2018/5/3.
- */
-
 public class ConcentrationRecord {
 
     private int mId;

@@ -13,10 +13,6 @@ import android.widget.EditText;
 
 import com.example.xiaohanhan.concentration.R;
 
-/**
- * Created by xiaohanhan on 2018/4/24.
- */
-
 public class NoteFragment extends DialogFragment {
 
     public static final String EXTRA_NOTE = "NoteFragment_note";

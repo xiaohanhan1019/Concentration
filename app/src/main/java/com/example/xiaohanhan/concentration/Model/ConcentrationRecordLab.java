@@ -6,10 +6,6 @@ import com.example.xiaohanhan.concentration.Util.MySQLHelper;
 
 import java.util.List;
 
-/**
- * Created by xiaohanhan on 2018/5/3.
- */
-
 public class ConcentrationRecordLab {
 
     private static ConcentrationRecordLab sConcentrationRecordLab;

@@ -27,10 +27,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by xiaohanhan on 2018/12/29.
- */
-
 public class TodayFragment extends Fragment {
 
     private PieChart mChart;

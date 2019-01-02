@@ -22,10 +22,6 @@ import com.example.xiaohanhan.concentration.R;
 
 import java.util.Locale;
 
-/**
- * Created by xiaohanhan on 2018/5/5.
- */
-
 public class SettingsFragment extends Fragment {
 
     private ImageButton mArrowBack;

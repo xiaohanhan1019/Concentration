@@ -7,10 +7,6 @@ import com.example.xiaohanhan.concentration.Util.MySQLHelper;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by xiaohanhan on 2018/4/28.
- */
-
 public class InterruptionLab {
 
     private static InterruptionLab sInterruptionLab;

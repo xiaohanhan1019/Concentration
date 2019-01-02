@@ -18,14 +18,11 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by xiaohanhan on 2018/5/1.
- */
-
 public class MySQLHelper {
 
     private static final String driver = "com.mysql.jdbc.Driver";
-    private static final String url = "jdbc:mysql://10.0.2.2/concentration?connectTimeout=2000";
+    //private static final String url = "jdbc:mysql://10.0.2.2/concentration?connectTimeout=2000";
+    private static final String url = "jdbc:mysql://101.132.169.32/concentration?connectTimeout=2000";
     private static final String user = "root";
     private static final String password = "1019";
 

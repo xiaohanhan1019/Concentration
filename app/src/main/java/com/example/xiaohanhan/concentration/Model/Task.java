@@ -6,10 +6,6 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created by xiaohanhan on 2018/4/18.
- */
-
 public class Task {
 
     private int mId;
