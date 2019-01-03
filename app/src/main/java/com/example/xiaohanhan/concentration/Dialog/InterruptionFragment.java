@@ -29,10 +29,6 @@ import com.example.xiaohanhan.concentration.R;
 import java.util.List;
 import java.util.Locale;
 
-/**
- * Created by xiaohanhan on 2018/4/26.
- */
-
 public class InterruptionFragment extends DialogFragment {
 
     private EditText mAddInterruptName;

@@ -35,10 +35,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
-/**
- * Created by xiaohanhan on 2018/5/6.
- */
-
 public class TaskStatisticFragment extends Fragment {
 
     private static final String ARG_TASK_ID = "task_id";

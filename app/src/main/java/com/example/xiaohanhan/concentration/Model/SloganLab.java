@@ -4,10 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-/**
- * Created by xiaohanhan on 2018/5/5.
- */
-
 public class SloganLab {
 
     private static SloganLab sSloganLab; 

@@ -5,10 +5,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
-/**
- * Created by xiaohanhan on 2018/4/21.
- */
-
 public class MyApplication extends Application {
 
     public static final String PREFERENCE_SETTINGS_WORKING_TIME = "working_time";

@@ -18,10 +18,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-/**
- * Created by xiaohanhan on 2018/4/18.
- */
-
 public class DatePickerFragment extends DialogFragment {
 
     public static final String EXTRA_DEADLINE = "DatePickerFragment_deadline";

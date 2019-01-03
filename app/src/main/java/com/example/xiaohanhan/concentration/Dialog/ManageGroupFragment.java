@@ -30,10 +30,6 @@ import com.matrixxun.starry.badgetextview.MaterialBadgeTextView;
 
 import java.util.List;
 
-/**
- * Created by xiaohanhan on 2018/4/30.
- */
-
 public class ManageGroupFragment extends DialogFragment {
 
     public static final String EXTRA_GROUP_ID = "manage_group_fragment_group_id";

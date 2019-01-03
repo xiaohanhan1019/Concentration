@@ -11,10 +11,6 @@ import android.support.v7.app.AppCompatActivity;
 import com.example.xiaohanhan.concentration.Fragment.TaskStatisticFragment;
 import com.example.xiaohanhan.concentration.R;
 
-/**
- * Created by xiaohanhan on 2018/5/6.
- */
-
 public class TaskStatisticActivity extends AppCompatActivity {
 
     private static final String EXTRA_TASK_ID = "TaskStatisticActivity_task_id";

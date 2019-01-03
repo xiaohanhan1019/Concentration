@@ -76,6 +76,14 @@ public class TaskListActivity extends AppCompatActivity {
         Date now = new Date();
         mDateday = findViewById(R.id.date_day);
         mDateday.setText(new SimpleDateFormat("dd", Locale.getDefault()).format(now));
+        mDateday.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = TodayActivity.newIntent(TaskListActivity.this);
+                startActivity(intent);
+                overridePendingTransition(R.anim.goright_left_to_right,R.anim.goright_right_to_left);
+            }
+        });
         mDateMonth = findViewById(R.id.date_month);
         mDateMonth.setText(new SimpleDateFormat("MMMM", Locale.getDefault()).format(now));
         mDateWeek = findViewById(R.id.date_week);

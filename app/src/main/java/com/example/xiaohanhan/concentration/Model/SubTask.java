@@ -1,9 +1,5 @@
 package com.example.xiaohanhan.concentration.Model;
 
-/**
- * Created by xiaohanhan on 2018/4/24.
- */
-
 public class SubTask {
 
     private int mId;

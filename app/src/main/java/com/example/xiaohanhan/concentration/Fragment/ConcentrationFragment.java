@@ -25,10 +25,6 @@ import com.example.xiaohanhan.concentration.R;
 
 import java.lang.ref.WeakReference;
 
-/**
- * Created by xiaohanhan on 2018/4/18.
- */
-
 public class ConcentrationFragment extends Fragment{
 
     public static final String EXTRA_IS_INTERRPUTED = "Concentration_fragment_is_interrupt";

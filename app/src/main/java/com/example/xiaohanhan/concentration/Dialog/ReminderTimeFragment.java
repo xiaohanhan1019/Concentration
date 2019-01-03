@@ -13,10 +13,6 @@ import com.example.xiaohanhan.concentration.R;
 import java.util.Calendar;
 import java.util.Date;
 
-/**
- * Created by xiaohanhan on 2018/4/23.
- */
-
 public class ReminderTimeFragment extends Fragment {
 
     private static final String ARG_TIME = "time";

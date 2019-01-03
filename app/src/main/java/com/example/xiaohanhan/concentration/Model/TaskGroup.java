@@ -3,10 +3,6 @@ package com.example.xiaohanhan.concentration.Model;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by xiaohanhan on 2018/4/22.
- */
-
 public class TaskGroup {
 
     private int mId;
